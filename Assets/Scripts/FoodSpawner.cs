@@ -5,8 +5,8 @@ public class FoodSpawner : MonoBehaviour
     public GameObject foodPrefab; // Префаб еды, который будем создавать
 
     // Границы спавна
-    public int xRange = 8;
-    public int yRange = 8;
+    public int xRange = 7;
+    public int yRange = 7;
 
 
     void Start()

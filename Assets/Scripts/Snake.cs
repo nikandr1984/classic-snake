@@ -9,6 +9,7 @@ public class Snake : MonoBehaviour
     public float moveInterval = 0.3f;          // Интервал между шагами
     private float nextMoveTime;                // Время, когда можно сделать следующий шаг
     public GameObject bodyPrefab;              // Префаб тела змейки
+    public WallsRenderer wallsRenderer;        // Ссылка на скрипт мигания рамки
 
     private List<Transform> segments;
 
@@ -84,13 +85,13 @@ public class Snake : MonoBehaviour
             }
         }
         else if (other.CompareTag("Walls"))
-        {
-            Debug.Log("Game Over! Hit the wall.");
+        {        
+            GameOver();
         }
     }            
     
 
-    public void Grow()
+    public void Grow() 
     {
         // Создаем новый сегмент тела
         GameObject newSegment = Instantiate(bodyPrefab);
@@ -105,7 +106,7 @@ public class Snake : MonoBehaviour
         segments.Add(newSegment.transform);
     }
 
-    // Метод проверки позици (дополнительная проверка гамовера)
+    // Метод проверки столкновения змейки с самой собой
     private void CheckSelfCollision()
     {
         // Позиция головы округленная
@@ -120,10 +121,18 @@ public class Snake : MonoBehaviour
             // Сравниваем с головой (с небольшим допуском)
             if (Vector2.Distance(headPosition, segmentPosition) < 0.1f)
             {
-                // Столкновение с телом!
-                Debug.Log("Game Over! You ate yourself");
+                GameOver();
                 break;
             }
+        }
+    }
+
+    private void GameOver()
+    {
+        Debug.Log("Game Over!");
+        if (wallsRenderer != null)
+        {
+            wallsRenderer.Flash(Color.red, 0.2f);
         }
     }
 }
