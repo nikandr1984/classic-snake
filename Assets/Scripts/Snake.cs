@@ -77,6 +77,17 @@ public class Snake : MonoBehaviour
             // Увеличиваем змейку
             Grow();
 
+            // Увеличиваем счет
+            if (GameManager.Instance != null) // Проверяем, что GameManager существует
+            {
+                GameManager.Instance.AddScore();
+            }
+            else
+            {
+                Debug.Log("GameManager не найден!");
+            }
+
+
             // Сообщаем спавнеру, что нужно создать новую
             FoodSpawner foodSpawner = FindFirstObjectByType<FoodSpawner>();
             if (foodSpawner != null)
