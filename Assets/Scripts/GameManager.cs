@@ -5,6 +5,7 @@ public class GameManager : MonoBehaviour
 {
     // Статические поля - доступны из любого скрипта без ссылки
     public static GameManager Instance; // Синглтон для доступа к GameManager
+    public UIManager uiManager;         // Ссылка на UIManager для обновления интерфейса
 
     public int score { get; private set; }      // Текущий счет
     public int highScore { get; private set; }  // Рекордный счет
@@ -24,6 +25,11 @@ public class GameManager : MonoBehaviour
         }
 
         highScore = PlayerPrefs.GetInt("HighScore", 0); // Загружаем рекорд из памяти
+
+        if (uiManager != null)
+        {
+            uiManager.Initialize(score, highScore); // Инициализируем UI с текущим счетом и рекордом
+        }
     }
 
     public void AddScore() // Метод вызывается, когда змейка съедает еду
@@ -35,7 +41,12 @@ public class GameManager : MonoBehaviour
         {
             highScore = score; // Обновляем рекорд
             PlayerPrefs.SetInt("HighScore", highScore); // Сохраняем рекорд в памяти
-        }            
+        } 
+        
+        if (uiManager != null)
+        {
+            uiManager.UpdateScore(score); // Обновляем счет в UI
+        }
     }
 
     public void ResetScore() // Метод для сброса счета
