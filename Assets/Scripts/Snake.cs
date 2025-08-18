@@ -41,7 +41,7 @@ public class Snake : MonoBehaviour
 
 
 
-        if (Time.time >= nextMoveTime)
+        if (!GameManager.Instance.IsPaused && Time.time >= nextMoveTime)
         {
             Move(); // Вызов метода движения
             nextMoveTime = Time.time + moveInterval; // Считаем, когда можно будет двигаться снова
@@ -138,12 +138,17 @@ public class Snake : MonoBehaviour
         }
     }
 
-    private void GameOver()
-    {
-        Debug.Log("Game Over!");
-        if (wallsRenderer != null)
+    private void GameOver() // Метод для обработки окончания игры
+    {                
+        if (GameManager.Instance != null)  // Вызываем событие окончания игры
         {
-            wallsRenderer.Flash(Color.red, 0.2f);
+            GameManager.Instance.GameOver(); 
         }
+
+        if (wallsRenderer != null) // Мигание рамки при окончании игры
+        {
+            wallsRenderer.Flash(Color.red, 0.2f); 
+        }
+
     }
 }
