@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public static event System.Action OnGameOver;           // Событие для уведомления об окончании игры
 
     public UIManager uiManager;               // Ссылка на UIManager для обновления интерфейса
+    public GameOverUI gameOverUI;             // Ссылка на GameOverUI для отображения экрана окончания игры
     public UnityEngine.UI.Button pauseButton; // Кнопка паузы, если используется
 
     private bool isPaused = false; // Флаг паузы игры
@@ -137,6 +138,11 @@ public class GameManager : MonoBehaviour
         if (pauseButton != null)
         {
             pauseButton.interactable = true; // Включаем кнопку паузы            
+        }
+
+        if (gameOverUI != null && gameOverUI.gameOverPanel != null) // Проверяем, что ссылки не null
+        {
+            gameOverUI.gameOverPanel.SetActive(false); // Скрываем панель Game Over
         }
 
         Debug.Log("New Game started!");    // Выводим сообщение в консоль

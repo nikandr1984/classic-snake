@@ -24,19 +24,32 @@ public class Snake : MonoBehaviour
         // Обработка ввода WASD
         if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
-            direction = Vector2.up;
+            if (direction != Vector2.down) // Если не движемся вниз, тогда можем двигаться вверх
+            {
+                direction = Vector2.up;
+            }                      
         }
         else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
         {
-            direction = Vector2.down;
+            if (direction != Vector2.up)  // Если не движемся вверх, тогда можем двигаться вниз
+            {
+                direction = Vector2.down;
+            }
+            
         }
         else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            direction = Vector2.left;
+            if (direction != Vector2.right) // Если не движемся вправо, тогда можем двигаться влево
+            {
+                direction = Vector2.left;
+            }      
         }
         else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
         {
-            direction = Vector2.right;
+            if (direction != Vector2.left) // Если не движемся влево, тогда можем двигаться вправо
+            {
+                direction = Vector2.right;
+            }                
         }
 
 
