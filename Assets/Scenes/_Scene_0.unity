@@ -2029,7 +2029,6 @@ GameObject:
   - component: {fileID: 1186153055}
   - component: {fileID: 1186153057}
   - component: {fileID: 1186153056}
-  - component: {fileID: 1186153058}
   m_Layer: 5
   m_Name: GameOverPanel
   m_TagString: Untagged
@@ -2099,21 +2098,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1186153054}
   m_CullTransparentMesh: 1
---- !u!114 &1186153058
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1186153054}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b714d098753b1b43b8c82b3c5b5bfb2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameOverPanel: {fileID: 1186153054}
-  scoreText: {fileID: 22087151}
-  bestText: {fileID: 461355770}
 --- !u!1 &1344243766
 GameObject:
   m_ObjectHideFlags: 0
@@ -2295,7 +2279,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiManager: {fileID: 1789614493}
-  gameOverUI: {fileID: 1186153058}
+  gameOverUI: {fileID: 0}
   pauseButton: {fileID: 832270133}
 --- !u!1 &1529043348
 GameObject:
@@ -2382,7 +2366,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1425461165}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: ResetGame
+        m_MethodName: RestartGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2440,6 +2424,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1789614492}
   - component: {fileID: 1789614493}
+  - component: {fileID: 1789614494}
   m_Layer: 5
   m_Name: GameUI
   m_TagString: Untagged
@@ -2487,6 +2472,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scoreText: {fileID: 2126836508}
   highScoreText: {fileID: 1969139914}
+--- !u!114 &1789614494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1789614491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b714d098753b1b43b8c82b3c5b5bfb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameOverPanel: {fileID: 1186153054}
+  scoreText: {fileID: 22087151}
+  bestText: {fileID: 461355770}
 --- !u!1 &1803436153
 GameObject:
   m_ObjectHideFlags: 0
@@ -3233,10 +3233,10 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1425461164}
+  - {fileID: 523410390}
+  - {fileID: 493599535}
+  - {fileID: 1934411229}
   - {fileID: 519420032}
   - {fileID: 619394802}
-  - {fileID: 493599535}
-  - {fileID: 523410390}
-  - {fileID: 1934411229}
   - {fileID: 1013509099}
   - {fileID: 1803436157}

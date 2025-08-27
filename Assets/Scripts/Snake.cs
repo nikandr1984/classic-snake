@@ -155,6 +155,7 @@ public class Snake : MonoBehaviour
     {                
         if (GameManager.Instance != null)  // Вызываем событие окончания игры
         {
+            Debug.Log("Snake: Game Over вызван!");
             GameManager.Instance.GameOver(); 
         }
 

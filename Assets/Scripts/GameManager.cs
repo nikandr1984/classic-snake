@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public class GameManager : MonoBehaviour
@@ -22,11 +23,10 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        // Паттерн Singleton - гарантируем, что GameManager будет единственным экземпляром
-        if (Instance == null)
+        // Реализация синглтона
+        if (Instance == null) 
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject); // Сохраняется между сценами
+            Instance = this;            
             Debug.Log("GameManager создан инициализирован.");
         }
         else
@@ -79,13 +79,15 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public void ResetScore() // Метод для сброса счета
+    // Метод для сброса счета
+    public void ResetScore() 
     {
         score = 0; 
     }
 
 
-    public void TogglePause()  // Метод для переключения паузы
+    // Метод для переключения паузы
+    public void TogglePause()  
     {
         isPaused = !isPaused;
         Debug.Log("Game " + (isPaused ? "Paused" : "Resumed"));
@@ -95,7 +97,8 @@ public class GameManager : MonoBehaviour
     }
 
 
-    private void UpdatePauseButtonText(bool paused) // Метод для обновления текста кнопки паузы
+    // Метод для обновления текста кнопки паузы
+    private void UpdatePauseButtonText(bool paused) 
     {
         if (pauseButton != null)
         {
@@ -114,7 +117,7 @@ public class GameManager : MonoBehaviour
        isPaused = true;           // Устанавливаем паузу
        Debug.Log("Game Over!");   // Выводим сообщение в консоль
        
-       DisablePauseButton(); // Отключаем кнопку паузы
+       DisablePauseButton();      // Отключаем кнопку паузы
 
        OnGameOver?.Invoke();      // Уведомляем подписчиков об окончании игры
     }
@@ -129,23 +132,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // 
-    public void ResetGame() 
+
+    // Метод для сброса игры через перезагрузку сцены
+    public void RestartGame()  
     {
-        ResetScore();     // Сбрасываем счет
-        isPaused = false; // Снимаем паузу
-
-        if (pauseButton != null)
-        {
-            pauseButton.interactable = true; // Включаем кнопку паузы            
-        }
-
-        if (gameOverUI != null && gameOverUI.gameOverPanel != null) // Проверяем, что ссылки не null
-        {
-            gameOverUI.gameOverPanel.SetActive(false); // Скрываем панель Game Over
-        }
-
-        Debug.Log("New Game started!");    // Выводим сообщение в консоль
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Перезагружаем текущую сцену
     }
 
 }

@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -14,16 +15,21 @@ public class GameOverUI : MonoBehaviour
             gameOverPanel.SetActive(false); // Скрыем панель Game Over при старте
         }
 
-        GameManager.OnGameOver += Show; // Подписываемся на событие окончания игры
-    }
+        GameManager.OnGameOver += OnGameOverHandler; // Подписываемся на событие Game Over
+    }    
+
 
     private void OnDestroy()
     {
-        GameManager.OnGameOver -= Show; // Отписываемся от события при уничтожении объекта
+        GameManager.OnGameOver -= OnGameOverHandler; // Отписываемся от события при уничтожении объекта
     }
 
-    private void Show()
+
+    // Метод для показа панели Game Over с задержкой
+    private IEnumerator ShowWithDelay()
     {
+        yield return new WaitForSeconds(0.7f); // Ждем немного перед показом панели
+
         if (gameOverPanel != null && GameManager.Instance != null) // Проверяем, что ссылки не null
         {
             // Обновляем текст счета и рекорда
@@ -38,6 +44,12 @@ public class GameOverUI : MonoBehaviour
 
             gameOverPanel.SetActive(true); // Показываем панель Game Over
         }
+    }
 
+    // Обработчик события Game Over
+    private void OnGameOverHandler()
+    {
+        Debug.Log("GameOverUI: Событие получено, запускаем корутину");
+        StartCoroutine(ShowWithDelay());
     }
 }
