@@ -21,6 +21,4 @@ public class UIManager : MonoBehaviour
         UpdateScore(score);          // Устанавливаем начальный счет
         UpdateHighScore(highScore);  // Устанавливаем начальный рекорд
     }
-
-
 }

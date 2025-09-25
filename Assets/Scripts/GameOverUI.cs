@@ -8,28 +8,45 @@ public class GameOverUI : MonoBehaviour
     public TextMeshProUGUI scoreText;  // Ссылка на текст для отображения счета
     public TextMeshProUGUI bestText;   // Ссылка на текст для отображения рекорда
 
-    private void Awake()
+
+    private void Start()
     {
-        if (gameOverPanel != null) 
+        if (gameOverPanel != null)
         {
-            gameOverPanel.SetActive(false); // Скрыем панель Game Over при старте
+            gameOverPanel.SetActive(false); // Скрываем панель Game Over в начале игры
         }
+    }
 
-        GameManager.OnGameOver += OnGameOverHandler; // Подписываемся на событие Game Over
-    }    
-
-
-    private void OnDestroy()
+    private void OnEnable()
     {
-        GameManager.OnGameOver -= OnGameOverHandler; // Отписываемся от события при уничтожении объекта
+        Debug.Log("GameOverUI.OnEnable() called.");
+
+        if (gameOverPanel != null)
+        {
+            if (GameManager.Instance != null)
+            {
+                GameManager.OnGameOver += OnGameOverHandler; // Подписываемся на событие Game Over
+                Debug.Log("Subscribed to OnGameOver");
+            }
+            else
+            {
+                Debug.LogError("GameManager.Instance is NULL in OnEnable!");
+            }
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (gameOverPanel != null)
+        {
+            GameManager.OnGameOver -= OnGameOverHandler; // Отписываемся от события при уничтожении объекта  
+        }
     }
 
 
-    // Метод для показа панели Game Over с задержкой
-    private IEnumerator ShowWithDelay()
+    // Обработчик события Game Over
+    private void OnGameOverHandler()
     {
-        yield return new WaitForSeconds(0.7f); // Ждем немного перед показом панели
-
         if (gameOverPanel != null && GameManager.Instance != null) // Проверяем, что ссылки не null
         {
             // Обновляем текст счета и рекорда
@@ -40,16 +57,10 @@ public class GameOverUI : MonoBehaviour
             if (bestText != null)
             {
                 bestText.text = "Best: " + GameManager.Instance.highScore;
-            }
+            }           
 
             gameOverPanel.SetActive(true); // Показываем панель Game Over
         }
     }
-
-    // Обработчик события Game Over
-    private void OnGameOverHandler()
-    {
-        Debug.Log("GameOverUI: Событие получено, запускаем корутину");
-        StartCoroutine(ShowWithDelay());
-    }
 }
+    
