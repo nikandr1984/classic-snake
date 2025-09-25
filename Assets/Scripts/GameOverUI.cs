@@ -18,20 +18,13 @@ public class GameOverUI : MonoBehaviour
     }
 
     private void OnEnable()
-    {
-        Debug.Log("GameOverUI.OnEnable() called.");
-
+    {     
         if (gameOverPanel != null)
         {
             if (GameManager.Instance != null)
             {
-                GameManager.OnGameOver += OnGameOverHandler; // Подписываемся на событие Game Over
-                Debug.Log("Subscribed to OnGameOver");
-            }
-            else
-            {
-                Debug.LogError("GameManager.Instance is NULL in OnEnable!");
-            }
+                GameManager.OnGameOver += OnGameOverHandler; // Подписываемся на событие Game Over             
+            }                      
         }
     }
 

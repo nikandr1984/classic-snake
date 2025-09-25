@@ -47,19 +47,19 @@ public class InputManager : MonoBehaviour  // Скрипт для обработки глобального в
 
     private void HandleGameplayInput() // Обработка геймплейного ввода
     {
-        if (Input.GetKeyDown(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
             OnMoveUpPressed?.Invoke(); 
         }
-        else if (Input.GetKeyDown(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+        else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
         {
             OnMoveDownPressed?.Invoke(); 
         }
-        else if (Input.GetKeyDown(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+        else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
         {
             OnMoveLeftPressed?.Invoke(); 
         }
-        else if (Input.GetKeyDown(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+        else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
         {
             OnMoveRightPressed?.Invoke(); 
         }

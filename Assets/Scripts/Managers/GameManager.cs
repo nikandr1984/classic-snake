@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
         // Инициализация синглтона
         if (Instance == null) 
         {
-            Instance = this;            
+            Instance = this;  
             Debug.Log("GameManager: синглтон создан и инициализирован.");
         }
         else

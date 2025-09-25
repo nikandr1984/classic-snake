@@ -65,7 +65,7 @@ public class PauseManager : MonoBehaviour
         Time.timeScale = paused ? 0f : 1f; // Останавливаем или возобновляем время
         OnPauseToggle?.Invoke(paused);     // Вызываем событие изменения паузы
 
-        SnakeMovement[] movements = FindObjectsOfType<SnakeMovement>();
+        SnakeMovement[] movements = FindObjectsByType<SnakeMovement>(FindObjectsSortMode.None);
         foreach (var m in movements)
         {
             m.SetInputEnabled(!paused);

@@ -104,7 +104,7 @@ public class Snake : MonoBehaviour
             if (GameManager.Instance != null) // Проверяем, что GameManager существует
             {
                 GameManager.Instance.AddScore();
-            }
+            }       
             else
             {
                 Debug.Log("GameManager не найден!");
