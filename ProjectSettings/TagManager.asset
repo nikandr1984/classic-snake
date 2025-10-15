@@ -7,6 +7,7 @@ TagManager:
   - Body
   - Food
   - Walls
+  - GoldenFood
   layers:
   - Default
   - TransparentFX

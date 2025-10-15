@@ -1,17 +1,13 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class SnakeMovement : MonoBehaviour
 {
-    public event Action<Vector2> OnDirectionChanged;    // Событие для уведомления об изменении направления
+    private Vector2 _currentDirection = Vector2.right;    // Текущее направление движения змейки
+    private Vector2 _pendindDirection = Vector2.right;    // Буфер направления (для предотвращения обратного хода)   
 
-    private Vector2 _currentDirection = Vector2.right;  // Текущее направление движения змейки
-    private Vector2 _nextDirection;                     // Следующее направление движения змейки
-
-    private bool _inputEnabled = true;                  // Флаг: можно обрабатывать ввод?
-
-
-    //===============================================================================================
+    private bool _isInvertedControls = false;             // Флаг инверсии управления
 
     private void OnEnable()
     {
@@ -19,6 +15,8 @@ public class SnakeMovement : MonoBehaviour
         InputManager.OnMoveDownPressed  += HandleMoveDown;
         InputManager.OnMoveLeftPressed  += HandleMoveLeft;
         InputManager.OnMoveRightPressed += HandleMoveRight;
+
+        Snake.OnFoodEaten += ApplyGoldenAppleEffect;           // Подписка на событие съедания золтой еды
     }
 
     private void OnDisable()
@@ -27,63 +25,65 @@ public class SnakeMovement : MonoBehaviour
         InputManager.OnMoveDownPressed -= HandleMoveDown;
         InputManager.OnMoveLeftPressed -= HandleMoveLeft;
         InputManager.OnMoveRightPressed -= HandleMoveRight;
+
+        Snake.OnFoodEaten -= ApplyGoldenAppleEffect;           // Отписка от события съедания золтой еды
     }
 
 
-    private void HandleMoveUp()
-    {
-        if (!_inputEnabled) return;
-        if (_currentDirection != Vector2.down) _nextDirection = Vector2.up;
-    }
-
-    private void HandleMoveDown()
-    {
-        if (!_inputEnabled) return;
-        if (_currentDirection != Vector2.up) _nextDirection = Vector2.down;
-    }
-
-    private void HandleMoveLeft()
-    {
-        if (!_inputEnabled) return;
-        if (_currentDirection != Vector2.right) _nextDirection = Vector2.left;
-    }
-
-    private void HandleMoveRight()
-    {
-        if (!_inputEnabled) return;
-        if (_currentDirection != Vector2.left) _nextDirection = Vector2.right;
-    }
+    // Обработчики событий, запоминающие направление последнего направления в буфер
+    private void HandleMoveUp() => SetPendingDirection(Vector2.up);       // Вверх
+    private void HandleMoveDown() => SetPendingDirection(Vector2.down);   // Вниз
+    private void HandleMoveLeft() => SetPendingDirection(Vector2.left);   // Влево
+    private void HandleMoveRight() => SetPendingDirection(Vector2.right); // Вправо
 
 
-    // Важный метод! Его будет вызывать Snake после каждого шага.
-    // Он применяет валидное направление из буфера и сбрасывает флаг.
-    public void ApplyDirectionChange()
+    // Метод для установки буферного направления с учетом возможной инверсии
+    private void SetPendingDirection(Vector2 direction)
     {
-        // Если направление изменилось, применяем его и уведомляем подписчиков
-        if (_nextDirection != _currentDirection && _nextDirection != Vector2.zero)
+        Vector2 actualDirection;
+
+        if (_isInvertedControls)
         {
-            _currentDirection = _nextDirection;
-            OnDirectionChanged?.Invoke(_currentDirection);
+            actualDirection = -direction;
+        }
+        else
+        {
+            actualDirection = direction;
+        }
 
-            // _nextDirection не сбрасываем в zero, чтобы сохранить последнее валидное направление
+        _pendindDirection = actualDirection;
+    }
 
-            _inputEnabled = true; // Разрешаем ввод
+
+    // Метод для применения эффекта от съедания золотой еды (инверсия)
+    private void ApplyGoldenAppleEffect(FoodType foodType)
+    {
+        if (foodType == FoodType.Golden)
+        {
+            StartCoroutine(InvertControlsCoroutine(10f)); // Инвертируем управление на 10 секунд
         }
     }
+        
 
-
-    // Метод для включения/выключения обработки ввода извне
-    public void SetInputEnabled(bool state)
+    // Корутин для переключения флага инверсии управления на заданное время
+    private IEnumerator InvertControlsCoroutine(float duration) 
     {
-        _inputEnabled = state;
+        _isInvertedControls = true;
+        Debug.Log("SnakeMovement: Control is inverted to " + duration + "sec." );
+        yield return new WaitForSeconds(duration);
+        _isInvertedControls = false;
+        Debug.Log("SnakeMovement: Control is back to normal.");
     }
 
 
-    // Метод для сброса состояния (при рестарте игры)
-    public void ResetDirection(Vector2 startDirection)
+    // Метод для получения Змейкой следующего направления движения из буфера
+    public Vector2 GetNextDirection()
     {
-        _currentDirection = startDirection;
-        _nextDirection = startDirection;
-        _inputEnabled = true;
+        if (_pendindDirection != -_currentDirection)
+        {
+            _currentDirection = _pendindDirection;
+        }
+        return _currentDirection;
     }
+
 }

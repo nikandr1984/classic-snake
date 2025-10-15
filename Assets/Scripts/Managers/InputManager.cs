@@ -28,13 +28,12 @@ public class InputManager : MonoBehaviour  // Скрипт для обработки глобального в
     }
 
     void Update()
-    {
+    {        
         HandleSystemInput();    // Обработка системного ввода (пауза)
         HandleGameplayInput();  // Обработка игрового ввода (движение)
     }
 
-
-    //===============================================
+    
 
     private void HandleSystemInput() // Обработка системного ввода
     {

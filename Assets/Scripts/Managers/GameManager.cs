@@ -5,27 +5,37 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {          
-    public static GameManager Instance;              // Синглтон для доступа к GameManager
+    public static GameManager Instance;  // Синглтон для доступа к GameManager
                                                       
-    public static event System.Action OnGameOver;    // Событие для уведомления об окончании игры
-    public static event System.Action OnWallsFlash;  // Событие для уведомления о мигании стен
-
+    public static event System.Action OnGameOver;          // Событие для уведомления об окончании игры
+    public static event System.Action OnWallsFlash;        // Событие для уведомления о мигании стен
+    public static event System.Action OnLevelUp;           // Событие для уведомления о повышении уровня (каждые n яблок)
+    
     public UIManager uiManager;          // Ссылка на UIManager для обновления интерфейса
     public GameOverUI gameOverUI;        // Ссылка на GameOverUI для отображения экрана окончания игры
     public float gameOverDelay = 1.5f;   // Задержка перед показом экрана окончания игры
 
-    public bool IsGameOver { get; private set; } = false; // Флаг окончания игры
+    public bool IsGameOver { get; private set; } = false;  // Флаг: игра окончена? 
+    public bool IsPaused { get; private set; } = false;    // Флаг: игра на паузе?
+    public bool CanPlay => !IsPaused && !IsGameOver;       // Можно ли играть?
 
 
     public int score { get; private set; }      // Текущий счет
     public int highScore { get; private set; }  // Рекордный счет
+    public int levelCount { get; private set; } = 1; // Текущий уровень
 
-    
 
-    // ========================================
+    private int _eatenApples = 0;           // Счетчик съеденных яблок    
+
+    [SerializeField] private int _appleToLevelUp = 15; // Количество яблок для повышения уровня    
+
+
+
 
     private void Awake()
     {
+        Time.timeScale = 1f; // Устанавливаем нормальное время при старте игры
+
         // Инициализация синглтона
         if (Instance == null) 
         {
@@ -50,44 +60,50 @@ public class GameManager : MonoBehaviour
             {
                 uiManager.Initialize(score, highScore);
             }
-        }
-    } 
 
-
-    public void AddScore() // Метод вызывается, когда змейка съедает еду
-    {
-        score += 10; // Увеличиваем счет на 10
-
-        // Проверяем побит ли рекорд
-        if (score > highScore)
-        {
-            highScore = score; // Обновляем рекорд
-            PlayerPrefs.SetInt("HighScore", highScore); // Сохраняем рекорд в памяти
-        } 
-        
-        if (uiManager != null)
-        {
-            uiManager.UpdateScore(score); // Обновляем счет в UI
+            InputManager.OnPausePressed += TogglePause; // Подписываемся на событие нажатия паузы
+            Snake.OnFoodEaten += ScoringPoints;       // Подписываемся на событие съедания еды
         }
     }
-
-
-    // Метод для сброса счета
-    public void ResetScore() 
+    
+    private void OnDisable() 
     {
-        score = 0; 
+        if (Instance == this) 
+        {
+            InputManager.OnPausePressed -= TogglePause; // Отписываемся от события нажатия паузы
+            Snake.OnFoodEaten -= ScoringPoints;       // Отписываемся от события съедания еды
+        }
+    }
+    
+
+    private void LevelGameUp() // Метод увеличения уровня игры
+    {
+        
+        if (_eatenApples % _appleToLevelUp == 0)
+        {
+            levelCount++; // Увеличиваем уровень
+            
+            Debug.Log("Level Up! Eaten " + _eatenApples + " apples.");
+           
+            OnLevelUp?.Invoke(); 
+        }
+
+        if (uiManager != null)
+        {
+           uiManager.UpdateLevel(levelCount); // Обновляем уровень в UI
+        }
+
     }   
     
 
     // Метод для обработки окончания игры
     public void GameOver() 
     {       
-       if (IsGameOver) return;      // Если игра уже окончена, выходим
+       if (IsGameOver) return;   // Если игра уже окончена, выходим
 
-       IsGameOver = true;            // Устанавливаем флаг окончания игры
-       PauseManager.SetGameOver();   // Устанавливаем флаг окончания игры в PauseManager       
-       OnWallsFlash?.Invoke();       // Уведомляем рамку о необходимости мигнуть       
-       
+       IsGameOver = true;        // Устанавливаем флаг окончания игры
+       SetPause(true);           // Ставим игру на паузу при GameOver       
+       OnWallsFlash?.Invoke();   // Уведомляем рамку о необходимости мигнуть       
        StartCoroutine(DelayedGameOver()); // Запускаем корутину с задержкой перед показом экрана окончания игры      
     }
 
@@ -98,6 +114,21 @@ public class GameManager : MonoBehaviour
     }
     
 
+    private void SetPause(bool paused)
+    {
+        if (IsGameOver && !paused) return;  // Заапрещаем снимать паузу, если GameOver
+
+        IsPaused = paused;                  // Устанавливаем флаг паузы
+        Time.timeScale = paused ? 0f : 1f;  // Останавливаем или возобновляем время       
+        
+    }
+
+    public void TogglePause()
+    {
+        SetPause(!IsPaused); // Переключаем состояние паузы
+    }
+
+
     // Метод для сброса игры через перезагрузку сцены
     public void RestartGame()  
     {        
@@ -105,11 +136,40 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);                 
     }
 
-
-    // Метод для сброса состояния игры (без перезагрузки сцены)
-    public void ResetGameState()
+    private void ScoringPoints(FoodType foodType)
     {
-        IsGameOver = false;
-        score = 0;
+        int points = 0;
+        switch (foodType)
+        {
+            case FoodType.Normal:
+                points = 10;
+                break;
+            case FoodType.Golden:
+                points = 100;
+                break;
+            case FoodType.Poison:
+                points = -30;
+                break;
+            default:
+                points = 0;
+                break;
+
+        }
+        score += points;    // Увеличиваем счет на соответствующее количество очков
+
+        Debug.Log($"GameManager: Eaten {foodType} food. Score: {score}");
+        
+        if (uiManager != null) uiManager.UpdateScore(score); // Обновляем счет в UI        
+
+        if (score > highScore)
+        {
+            highScore = score;                           // Обновляем рекорд
+            PlayerPrefs.SetInt("HighScore", highScore);  // Сохраняем рекорд в памяти
+        }
+
+        _eatenApples++;                                          // Увеличиваем счетчик съеденных яблок
+        Debug.Log("GameManger: Eaten Apples: " + _eatenApples);
+        LevelGameUp();                                           // Проверяем, нужно ли повысить уровень
     }
+
 }

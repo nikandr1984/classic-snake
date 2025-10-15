@@ -7,7 +7,7 @@ public class GameOverUI : MonoBehaviour
     public GameObject gameOverPanel;   // —сылка на панель Game Over
     public TextMeshProUGUI scoreText;  // —сылка на текст дл€ отображени€ счета
     public TextMeshProUGUI bestText;   // —сылка на текст дл€ отображени€ рекорда
-
+        
 
     private void Start()
     {
@@ -18,7 +18,7 @@ public class GameOverUI : MonoBehaviour
     }
 
     private void OnEnable()
-    {     
+    {
         if (gameOverPanel != null)
         {
             if (GameManager.Instance != null)

@@ -3,8 +3,9 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    public TextMeshProUGUI scoreText;      // —сылка на текст дл€ отображени€ счета
-    public TextMeshProUGUI highScoreText;  // —сылка на текст дл€ отображени€ рекорда
+    [SerializeField] private TextMeshProUGUI scoreText;         // —сылка на текст дл€ отображени€ счета
+    [SerializeField] private TextMeshProUGUI highScoreText;     // —сылка на текст дл€ отображени€ рекорда
+    [SerializeField] private TextMeshProUGUI levelText;         // —сылка на текст дл€ отображени€ уровн€
 
     public void UpdateScore (int score)    // ћетод дл€ обновлени€ текста счета
     {
@@ -15,6 +16,12 @@ public class UIManager : MonoBehaviour
     {
         highScoreText.text = "Best: " + highScore;
     }
+
+    public void UpdateLevel(int level)
+    {
+        levelText.text = "Level: " + level;
+    }
+    
 
     public void Initialize(int score, int highScore)  // ћетод дл€ инициализации UI
     {
