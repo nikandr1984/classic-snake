@@ -3,23 +3,30 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI scoreText;         // —сылка на текст дл€ отображени€ счета
-    [SerializeField] private TextMeshProUGUI highScoreText;     // —сылка на текст дл€ отображени€ рекорда
-    [SerializeField] private TextMeshProUGUI levelText;         // —сылка на текст дл€ отображени€ уровн€
+    [SerializeField] private TextMeshProUGUI _scoreText;             // —сылка на текст дл€ отображени€ счета
+    [SerializeField] private TextMeshProUGUI _highScoreText;         // —сылка на текст дл€ отображени€ рекорда
+    [SerializeField] private TextMeshProUGUI _levelText;             // —сылка на текст дл€ отображени€ уровн€
+    [SerializeField] private TextMeshProUGUI _startGameButtonText;   // —сылка на текст кнопки начала игры
 
     public void UpdateScore (int score)    // ћетод дл€ обновлени€ текста счета
     {
-        scoreText.text = "Score: " + score;
+        _scoreText.text = "Score: " + score;
     }
 
     public void UpdateHighScore(int highScore)  // ћетод дл€ обновлени€ текста рекорда
     {
-        highScoreText.text = "Best: " + highScore;
+        _highScoreText.text = "Best: " + highScore;
     }
 
     public void UpdateLevel(int level)
     {
-        levelText.text = "Level: " + level;
+        _levelText.text = "Level: " + level;
+    }
+    
+
+    public void SetStartButtonToNewGame()
+    {
+        _startGameButtonText.text = "New Game";
     }
     
 

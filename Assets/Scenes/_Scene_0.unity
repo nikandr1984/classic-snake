@@ -846,6 +846,7 @@ MonoBehaviour:
   _minMoveInterval: 0.08
   _snakeMovement: {fileID: 493599537}
   _bodyPrefab: {fileID: 371478409773549683, guid: 6e4c0cd2243d27948809be135ae78736, type: 3}
+  _headRenderer: {fileID: 0}
 --- !u!61 &493599533
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1176,6 +1177,7 @@ MonoBehaviour:
   _xRange: 6
   _yRange: 6
   _triggerGoldenFood: 7
+  _poisonFoodCount: 4
 --- !u!4 &523410390
 Transform:
   m_ObjectHideFlags: 0
@@ -1248,7 +1250,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Classic Snake
+  m_text: Little Snake
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

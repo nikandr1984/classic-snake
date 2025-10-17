@@ -51,6 +51,12 @@ public class GameManager : MonoBehaviour
     }
 
 
+    private void Start()
+    {
+        uiManager.SetStartButtonToNewGame(); // Обновляем текст кнопки начала игры
+    }
+
+
     private void OnEnable() 
     {
         if (Instance == this) 

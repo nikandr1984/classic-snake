@@ -1,16 +1,22 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Snake : MonoBehaviour
 {    
-    private float _nextMoveTime;                // Время, когда можно сделать следующий шаг
-    private List<Transform> _segments;          // Список сегментов тела змейки
+    private float _nextMoveTime;                             // Время, когда можно сделать следующий шаг
+    private Color _originalHeadColor;                        // Исходный цвет головы змейки
+    private Color _newHeadColor = new Color(1f, 0.84f, 0f);  // Новый цвет головы (золотой)
+    
+    private List<Transform> _segments;                       // Список сегментов тела змейки
 
     [SerializeField] private float _moveInterval = 0.3f;     // Интервал между шагами змейки (в секундах)
     [SerializeField] private float _minMoveInterval = 0.08f; // Минимальный интервал между шагами (макс. скорость)
+    
     [SerializeField] private SnakeMovement _snakeMovement;   // Ссылка на обработчик ввода
-    [SerializeField] private GameObject _bodyPrefab;         // Префаб сегмента тела змейки
+    [SerializeField] private GameObject _bodyPrefab;         // Ссылка на префаб сегмента тела змейки
+    [SerializeField] private SpriteRenderer _headRenderer;   // Ссылка на спрайт рендерер головы змейки
 
     public static event Action<FoodType> OnFoodEaten;        // Событие, вызываемое при съедании еды    
 
@@ -21,7 +27,13 @@ public class Snake : MonoBehaviour
     {
         _segments = new List<Transform>(); // Инициализируем список сегментов
         _segments.Add(transform);          // Добавляем голову (сам объект, на котором скрипт)
-         
+
+
+        // Если спрайт рендерер головы не назначен в инспекторе, пытаемся получить его с текущего объекта
+        if (_headRenderer == null) _headRenderer = GetComponent<SpriteRenderer>(); 
+        _originalHeadColor = _headRenderer.color; // Сохраняем исходный цвет головы 
+
+
         Debug.Log("Snake: Initialized with move interval " + _moveInterval);
 
     }
@@ -42,8 +54,9 @@ public class Snake : MonoBehaviour
     {
         if (_snakeMovement != null)
         {
-            GameManager.OnLevelUp += HandleLevelUp;                     // Подписываемся на событие повышения уровня
+            GameManager.OnLevelUp += HandleLevelUp;  // Подписываемся на событие повышения уровня
         }
+        Snake.OnFoodEaten += ChangeHeadColor;        // Подписываемся на событие съедания еды, чтобы менять цвет головы
     }
     
 
@@ -51,8 +64,9 @@ public class Snake : MonoBehaviour
     {
         if (_snakeMovement != null)
         {
-            GameManager.OnLevelUp -= HandleLevelUp;                     // Отписываемся от события повышения уровня
+            GameManager.OnLevelUp -= HandleLevelUp;  // Отписываемся от события повышения уровня
         }
+        Snake.OnFoodEaten -= ChangeHeadColor;        // Отписываемся от события съедания еды
     }
     
 
@@ -163,6 +177,43 @@ public class Snake : MonoBehaviour
         _moveInterval = Mathf.Max(newInterval, _minMoveInterval);  // Не даем интервалу стать меньше минимального
         
         Debug.Log("Snake: Speeed Up! New speed: " + _moveInterval + ". Min speed: " + _minMoveInterval);
+    }
 
+    private void ChangeHeadColor(FoodType foodType)
+    {
+        if (foodType == FoodType.Golden)
+        {
+            StartCoroutine(SwitchHeadColorCoroutine(10f)); // Меняем цвет головы на 10 секунд
+        }
+    }
+
+    private IEnumerator SwitchHeadColorCoroutine(float totalDuration)
+    {
+        _headRenderer.color = _newHeadColor;        // Меняем цвет головы на новый (золотой)
+
+        float blinkStartTime = totalDuration - 2f;  // Начинаем мигать за 3 секунды до конца эффекта
+        float elapsedTime = 0f;                     // Время, прошедшее с начала эффекта
+
+        while (elapsedTime < totalDuration)
+        {
+            elapsedTime += Time.deltaTime;
+
+            if (elapsedTime >= blinkStartTime)
+            {
+                bool isGolden = ((int)(elapsedTime * 4f)) % 2 == 0;
+                
+                if (isGolden)
+                {
+                    _headRenderer.color = _newHeadColor;       // Золотой
+                }
+                else
+                {
+                    _headRenderer.color = _originalHeadColor;  // Исходный
+                }
+            }
+
+            yield return null;
+        }
+        _headRenderer.color = _originalHeadColor; // Страховка - точно возвращаем исходный цвет
     }
 }
