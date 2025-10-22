@@ -57,6 +57,16 @@ public class GameManager : MonoBehaviour
     }
 
 
+    private void Update()
+    {
+        // Обновляем таймер в UI, если игра не на паузе и не окончена
+        if (CanPlay && uiManager != null)
+        {
+            uiManager.UpdateTimer(Time.deltaTime);
+        }
+    }
+
+
     private void OnEnable() 
     {
         if (Instance == this) 
@@ -67,8 +77,10 @@ public class GameManager : MonoBehaviour
                 uiManager.Initialize(score, highScore);
             }
 
-            InputManager.OnPausePressed += TogglePause; // Подписываемся на событие нажатия паузы
-            Snake.OnFoodEaten += ScoringPoints;       // Подписываемся на событие съедания еды
+            InputManager.OnPausePressed += TogglePause;                            // Подписываемся на событие нажатия паузы
+            Snake.OnFoodEaten += ScoringPoints;                                    // Подписываемся на событие съедания еды
+            RulesPanelUI.OnRulesPanelShown += OnSomePanelShowHandler;              // Подписываемся на событие показа панели с правилами
+            LeaderboardPanelUI.OnLeaderboardPanelShown += OnSomePanelShowHandler;  // Подписываемся на событие показа панели с таблицей лидеров
         }
     }
     
@@ -76,8 +88,11 @@ public class GameManager : MonoBehaviour
     {
         if (Instance == this) 
         {
-            InputManager.OnPausePressed -= TogglePause; // Отписываемся от события нажатия паузы
-            Snake.OnFoodEaten -= ScoringPoints;       // Отписываемся от события съедания еды
+            InputManager.OnPausePressed -= TogglePause;                           // Отписываемся от события нажатия паузы
+            Snake.OnFoodEaten -= ScoringPoints;                                   // Отписываемся от события съедания еды
+            RulesPanelUI.OnRulesPanelShown -= OnSomePanelShowHandler;             // Отписываемся от события показа панели с правилами
+            LeaderboardPanelUI.OnLeaderboardPanelShown -= OnSomePanelShowHandler; // Отписываемся от события показа панели с таблицей лидеров
+
         }
     }
     
@@ -129,10 +144,18 @@ public class GameManager : MonoBehaviour
         
     }
 
-    public void TogglePause()
+    private void TogglePause()
     {
         SetPause(!IsPaused); // Переключаем состояние паузы
     }
+
+
+    private void OnSomePanelShowHandler()  // Обработчик события показа панели с правилами
+    {
+        SetPause(true);                     // Ставим игру на паузу при показе панели с правилами
+    }
+
+
 
 
     // Метод для сброса игры через перезагрузку сцены
