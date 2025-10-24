@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class FoodSpawner : MonoBehaviour
@@ -7,63 +6,83 @@ public class FoodSpawner : MonoBehaviour
     [SerializeField] private GameObject _normalFoodPrefab;  // Префаб обычной еды
     [SerializeField] private GameObject _goldenFoodPrefab;  // Префаб золотой еды
     [SerializeField] private GameObject _poisonFoodPrefab;  // Префаб ядовитой еды
+    [SerializeField] private GameObject _slowFoodPrefab;   // Префаб скоростной еды
 
-    [SerializeField] private int _xRange = 7;               // Границы спавна по X
-    [SerializeField] private int _yRange = 7;               // Границы спавна по Y
+    private int _xRange = 6;  // Границы спавна еды по X
+    private int _yRange = 6;  // Границы спавна еды по Y
 
+    [Header("Golden food settings")]
     [SerializeField] private int _triggerGoldenFood = 3;    // Количество созданной еды для спавна золотой еды
-    [SerializeField] private int _poisonFoodCount = 3;      // Количество ядовитой еды для спавна
 
-    private int _countSpawnedFood = 0;                      // Счетчик созданной еды
+    [Header("Poison food settings")]
+    [SerializeField] private int _poisonFoodCount = 2;         // Количество ядовитой еды для спавна
+    [SerializeField] private int _poisonSpawnAfterLevel = 3;   // Уровень, с которого начинается спавн ядовитой еды
+    [SerializeField] private float _minPoisonSpawnDelay = 2f;  // Минимальная задержка перед спавном ядовитой еды
+    [SerializeField] private float _maxPoisonSpawnDelay = 20f; // Максимальная задержка перед спавном ядовитой еды
+
+    [Header("Slow food settings")]
+    [SerializeField] private int _slowFoodCount = 3;          // Количество замедляющей еды для спавна
+    [SerializeField] private int _slowSpawnEveryLevel = 4;    // Спавн замедляющей еды на каждом n уровне   
+    public int SlowFoodCount => _slowFoodCount;               // Геттер для количества замедляющей еды
+
+    private int _countSpawnedNormalFood = 0;                  // Счетчик созданной еды
     
 
 
     void Start()
     {
        Instantiate(_normalFoodPrefab, GetRandomPosition(), Quaternion.identity); // Спавн первой еды
-       _countSpawnedFood = 1;
+       _countSpawnedNormalFood = 1;
     }
 
 
     private void OnEnable()
     {
         Snake.OnFoodEaten     += SpawnFood;         // Подписка на событие съедания еды
-        GameManager.OnLevelUp += SpawnPoisonFood;   // Подписка на событие повышения уровня
+        GameManager.OnLevelUp += PoisonFoodSpawn;   // Подписка на событие повышения уровня для ядовитой еды
+        GameManager.OnLevelUp += SlowFoodSpawn;     // Подписка на событие повышения уровня для замедляющей еды
+
     }
     private void OnDisable()
     {
         Snake.OnFoodEaten     -= SpawnFood;        // Отписка от события съедания еды
-        GameManager.OnLevelUp -= SpawnPoisonFood;  // Отписка от события повышения уровня
+        GameManager.OnLevelUp -= PoisonFoodSpawn;  // Отписка от события повышения уровня
+        GameManager.OnLevelUp -= SlowFoodSpawn;    // Отписка от события повышения уровня
     }
     
 
     private void SpawnFood(FoodType foodType)  
     {
-        if (foodType == FoodType.Golden || foodType == FoodType.Poison)
+        // Если съедена золотая, ядовитая или скоростная еда, не спавним новую
+        if (foodType == FoodType.Golden || foodType == FoodType.Poison || foodType == FoodType.Slow)
         {
-            return; // Если съедена золотая или ядовитая еда, не спавним новую
+            return; 
         }
 
+
+        // Спавн обычной еды
         Instantiate(_normalFoodPrefab, GetRandomPosition(), Quaternion.identity); // Спавним обычную еду
-        _countSpawnedFood++;   
-        
-        if (_countSpawnedFood % _triggerGoldenFood == 0)
-        {
-            Instantiate(_goldenFoodPrefab, GetRandomPosition(), Quaternion.identity); // Спавним золотую еду
-        }        
-    }
+        _countSpawnedNormalFood++;
 
-    private void SpawnPoisonFood()  // Метод для спавна ядовитой еды
-    {
-        if (GameManager.Instance.levelCount >= 3)
+
+        // Спавн золотой еды
+        if (_countSpawnedNormalFood % _triggerGoldenFood == 0) 
         {
-            StartCoroutine(SpawnPoisonAfterDelay());
+            Instantiate(_goldenFoodPrefab, GetRandomPosition(), Quaternion.identity);
         }
     }
 
-    private IEnumerator SpawnPoisonAfterDelay()   // Корутин для спавна ядовитой еды с задержкой
+    private void PoisonFoodSpawn()  // Спавн ядовитой еды
     {
-        float delay = Random.Range(2f, 20f);      // Случайная задержка перед спавном ядовитой еды
+        if (GameManager.Instance.levelCount >= _poisonSpawnAfterLevel)
+        {
+            StartCoroutine(PoisonFoodCoroutine());
+        }
+    }
+
+    private IEnumerator PoisonFoodCoroutine()     // Корутин для спавна ядовитой еды с задержкой
+    {
+        float delay = Random.Range(_minPoisonSpawnDelay, _maxPoisonSpawnDelay);      // Случайная задержка перед спавном ядовитой еды
         yield return new WaitForSeconds(delay);
         
         for (int i = 0; i < _poisonFoodCount; i++)
@@ -72,6 +91,26 @@ public class FoodSpawner : MonoBehaviour
             yield return new WaitForSeconds(1f);                                       // Небольшая задержка между спавнами
         }
         
+    }
+
+
+    private void SlowFoodSpawn() // Спавн замедляющей еды
+    {
+        if (GameManager.Instance.levelCount % _slowSpawnEveryLevel == 0)
+        {
+            StartCoroutine(SlowFoodCoroutine());
+        }
+    }
+
+
+    private IEnumerator SlowFoodCoroutine()  // Корутин для спавна замедляющей еды
+    {
+        for (int i = 0; i < _slowFoodCount; i++)
+        {
+            Instantiate(_slowFoodPrefab, GetRandomPosition(), Quaternion.identity);
+            yield return new WaitForSeconds(1f);
+
+        }
     }
 
     private Vector3 GetRandomPosition()

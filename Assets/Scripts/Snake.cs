@@ -6,6 +6,7 @@ using UnityEngine;
 public class Snake : MonoBehaviour
 {    
     private float _nextMoveTime;                             // Время, когда можно сделать следующий шаг
+    private int _eatenSlowFood = 0;                          // Счетчик съеденной замедляющей еды
     private Color _originalHeadColor;                        // Исходный цвет головы змейки
     private Color _newHeadColor = new Color(1f, 0.84f, 0f);  // Новый цвет головы (золотой)
     
@@ -13,10 +14,12 @@ public class Snake : MonoBehaviour
 
     [SerializeField] private float _moveInterval = 0.3f;     // Интервал между шагами змейки (в секундах)
     [SerializeField] private float _minMoveInterval = 0.08f; // Минимальный интервал между шагами (макс. скорость)
-    
+    [SerializeField] private float _maxMoveInterval = 0.4f;  // Максимальный интервал между шагами (мин. скорость)
+
     [SerializeField] private SnakeMovement _snakeMovement;   // Ссылка на обработчик ввода
     [SerializeField] private GameObject _bodyPrefab;         // Ссылка на префаб сегмента тела змейки
     [SerializeField] private SpriteRenderer _headRenderer;   // Ссылка на спрайт рендерер головы змейки
+    [SerializeField] private FoodSpawner _foodSpawner;       // Ссылка на спавнер еды
 
     public static event Action<FoodType> OnFoodEaten;        // Событие, вызываемое при съедании еды    
 
@@ -57,6 +60,8 @@ public class Snake : MonoBehaviour
             GameManager.OnLevelUp += HandleLevelUp;  // Подписываемся на событие повышения уровня
         }
         Snake.OnFoodEaten += ChangeHeadColor;        // Подписываемся на событие съедания еды, чтобы менять цвет головы
+        Snake.OnFoodEaten += SlowingDownSnake;       // Подписываемся на событие съедания еды, чтобы замедлять змейку
+
     }
     
 
@@ -67,6 +72,7 @@ public class Snake : MonoBehaviour
             GameManager.OnLevelUp -= HandleLevelUp;  // Отписываемся от события повышения уровня
         }
         Snake.OnFoodEaten -= ChangeHeadColor;        // Отписываемся от события съедания еды
+        Snake.OnFoodEaten -= SlowingDownSnake;       // Отписываемся от события съедания еды
     }
     
 
@@ -101,16 +107,30 @@ public class Snake : MonoBehaviour
     {
         if (other.CompareTag("Food"))
         {
-            FoodsLife food = other.GetComponent<FoodsLife>();
-            FoodType type = food != null ? food.foodType : FoodType.Normal;
+            FoodsLife food = other.GetComponent<FoodsLife>(); // Получаем компонент FoodsLife у съеденной еды
 
-            Destroy(other.gameObject); // Удаляем съеденную еду
+            FoodType type;                                    // Тип съеденной еды
+             
+            if (food != null)                                 // Если компонент найден
+            {
+                type = food.foodType;                         // Получаем тип еды из компонента
+            }
+            else
+            {
+                type = FoodType.Normal;                       // Если компонента нет, считаем еду обычной
+            }
 
-            Grow();                    // Вызываем метод роста змейки
+            Destroy(other.gameObject);       // Удаляем съеденную еду
 
-            OnFoodEaten?.Invoke(type); // Уведомляем, что съедена еда такого-то типа            
+            if (type == FoodType.Normal)
+            {
+                Grow();                      // Змейка растет только от обычной еды
+            }                                      
+
+            OnFoodEaten?.Invoke(type);       // Уведомляем, что съедена еда такого-то типа
+                                          
         }
-        else if (other.CompareTag("Walls"))
+        else if (other.CompareTag("Walls"))  // Столкновение со стеной
         {        
             CrashedSnake();
         }
@@ -176,8 +196,13 @@ public class Snake : MonoBehaviour
         float newInterval = _moveInterval * 0.9f;                  // Уменьшаем интервал на 10%
         _moveInterval = Mathf.Max(newInterval, _minMoveInterval);  // Не даем интервалу стать меньше минимального
         
-        Debug.Log("Snake: Speeed Up! New speed: " + _moveInterval + ". Min speed: " + _minMoveInterval);
+        _eatenSlowFood = 0;      // Сбрасываем счетчик замедляющей еды (чтобы не переходил на новый уровень)
+        Debug.Log("Snake: Slow food count: " + _eatenSlowFood);
+
+        Debug.Log("Snake: Speeed Up! New speed: " + _moveInterval + ". Max speed: " + _minMoveInterval);
     }
+
+
 
     private void ChangeHeadColor(FoodType foodType)
     {
@@ -216,4 +241,25 @@ public class Snake : MonoBehaviour
         }
         _headRenderer.color = _originalHeadColor; // Страховка - точно возвращаем исходный цвет
     }
+
+    private void SlowingDownSnake(FoodType foodType)
+    {
+        if (foodType == FoodType.Slow)
+        {
+            _eatenSlowFood++;
+            Debug.Log("Snake: Eaten Slow food: " + _eatenSlowFood);
+        }
+
+
+        if (_eatenSlowFood == _foodSpawner.SlowFoodCount)
+        {
+            float newInterval = _moveInterval * 1.1f;                  // Уменьшаем скорость на 10%
+            _moveInterval = Mathf.Min(newInterval, _maxMoveInterval);  // Не даем интервалу стать больше максимального
+                      
+            Debug.Log("Snake: Speeed Down! New speed: " + _moveInterval + ". Min speed: " + _maxMoveInterval);
+
+            // Сетчик замедляющих яблок сбрасываем в методе перехода на новый уровень HandleLevelUp()
+        }
+    }
+
 }

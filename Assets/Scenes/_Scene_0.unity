@@ -1242,9 +1242,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveInterval: 0.4
   _minMoveInterval: 0.08
+  _maxMoveInterval: 0.4
   _snakeMovement: {fileID: 493599537}
   _bodyPrefab: {fileID: 371478409773549683, guid: 6e4c0cd2243d27948809be135ae78736, type: 3}
   _headRenderer: {fileID: 0}
+  _foodSpawner: {fileID: 523410389}
 --- !u!61 &493599533
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1484,7 +1486,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.21960784, g: 0.24313726, b: 0.2509804, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -1572,10 +1574,14 @@ MonoBehaviour:
   _normalFoodPrefab: {fileID: 247231786963645677, guid: eb9989d8f7e329944b9b2dfe74eba221, type: 3}
   _goldenFoodPrefab: {fileID: 247231786963645677, guid: 3cf09cdad6e09c24b9806167afc0fde4, type: 3}
   _poisonFoodPrefab: {fileID: 247231786963645677, guid: 4f0e9621baeaf16409438ee80b505276, type: 3}
-  _xRange: 6
-  _yRange: 6
-  _triggerGoldenFood: 7
-  _poisonFoodCount: 4
+  _slowFoodPrefab: {fileID: 247231786963645677, guid: 1a04ad7a0a14c184c8db109f3fa369c7, type: 3}
+  _triggerGoldenFood: 18
+  _poisonFoodCount: 3
+  _poisonSpawnAfterLevel: 3
+  _minPoisonSpawnDelay: 2
+  _maxPoisonSpawnDelay: 15
+  _slowFoodCount: 3
+  _slowSpawnEveryLevel: 4
 --- !u!4 &523410390
 Transform:
   m_ObjectHideFlags: 0
@@ -3211,7 +3217,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -4058,7 +4064,7 @@ MonoBehaviour:
   uiManager: {fileID: 1789614493}
   gameOverUI: {fileID: 1789614494}
   gameOverDelay: 1
-  _appleToLevelUp: 3
+  _normalFoodToLevelUp: 10
 --- !u!1 &1462290071
 GameObject:
   m_ObjectHideFlags: 0
@@ -5215,7 +5221,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -250}
-  m_SizeDelta: {x: 400, y: 50}
+  m_SizeDelta: {x: 600, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1969139914
 MonoBehaviour:
@@ -5271,7 +5277,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0

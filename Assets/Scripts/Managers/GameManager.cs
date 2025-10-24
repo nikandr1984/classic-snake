@@ -25,9 +25,9 @@ public class GameManager : MonoBehaviour
     public int levelCount { get; private set; } = 1; // Текущий уровень
 
 
-    private int _eatenApples = 0;           // Счетчик съеденных яблок    
+    private int _eatenNormalFood = 0;           // Счетчик съеденных яблок    
 
-    [SerializeField] private int _appleToLevelUp = 15; // Количество яблок для повышения уровня    
+    [SerializeField] private int _normalFoodToLevelUp = 15; // Количество яблок для повышения уровня    
 
 
 
@@ -79,6 +79,7 @@ public class GameManager : MonoBehaviour
 
             InputManager.OnPausePressed += TogglePause;                            // Подписываемся на событие нажатия паузы
             Snake.OnFoodEaten += ScoringPoints;                                    // Подписываемся на событие съедания еды
+            Snake.OnFoodEaten += ScoringEatenNormalFood;                           // Подписываемся на событие съедания еды для подсчета обычной еды
             RulesPanelUI.OnRulesPanelShown += OnSomePanelShowHandler;              // Подписываемся на событие показа панели с правилами
             LeaderboardPanelUI.OnLeaderboardPanelShown += OnSomePanelShowHandler;  // Подписываемся на событие показа панели с таблицей лидеров
         }
@@ -90,6 +91,7 @@ public class GameManager : MonoBehaviour
         {
             InputManager.OnPausePressed -= TogglePause;                           // Отписываемся от события нажатия паузы
             Snake.OnFoodEaten -= ScoringPoints;                                   // Отписываемся от события съедания еды
+            Snake.OnFoodEaten -= ScoringEatenNormalFood;                          // Отписываемся от события съедания еды для подсчета обычной еды
             RulesPanelUI.OnRulesPanelShown -= OnSomePanelShowHandler;             // Отписываемся от события показа панели с правилами
             LeaderboardPanelUI.OnLeaderboardPanelShown -= OnSomePanelShowHandler; // Отписываемся от события показа панели с таблицей лидеров
 
@@ -100,11 +102,11 @@ public class GameManager : MonoBehaviour
     private void LevelGameUp() // Метод увеличения уровня игры
     {
         
-        if (_eatenApples % _appleToLevelUp == 0)
+        if (_eatenNormalFood % _normalFoodToLevelUp == 0)
         {
             levelCount++; // Увеличиваем уровень
             
-            Debug.Log("Level Up! Eaten " + _eatenApples + " apples.");
+            Debug.Log("GameManager: Level Up! Eaten " + _eatenNormalFood + " Normal food.");
            
             OnLevelUp?.Invoke(); 
         }
@@ -120,11 +122,11 @@ public class GameManager : MonoBehaviour
     // Метод для обработки окончания игры
     public void GameOver() 
     {       
-       if (IsGameOver) return;   // Если игра уже окончена, выходим
+       if (IsGameOver) return;            // Если игра уже окончена, выходим
 
-       IsGameOver = true;        // Устанавливаем флаг окончания игры
-       SetPause(true);           // Ставим игру на паузу при GameOver       
-       OnWallsFlash?.Invoke();   // Уведомляем рамку о необходимости мигнуть       
+       IsGameOver = true;                 // Устанавливаем флаг окончания игры
+       SetPause(true);                    // Ставим игру на паузу при GameOver       
+       OnWallsFlash?.Invoke();            // Уведомляем рамку о необходимости мигнуть       
        StartCoroutine(DelayedGameOver()); // Запускаем корутину с задержкой перед показом экрана окончания игры      
     }
 
@@ -179,6 +181,9 @@ public class GameManager : MonoBehaviour
             case FoodType.Poison:
                 points = -30;
                 break;
+            case FoodType.Slow:
+                points = +5;
+                break;
             default:
                 points = 0;
                 break;
@@ -194,11 +199,18 @@ public class GameManager : MonoBehaviour
         {
             highScore = score;                           // Обновляем рекорд
             PlayerPrefs.SetInt("HighScore", highScore);  // Сохраняем рекорд в памяти
-        }
-
-        _eatenApples++;                                          // Увеличиваем счетчик съеденных яблок
-        Debug.Log("GameManger: Eaten Apples: " + _eatenApples);
-        LevelGameUp();                                           // Проверяем, нужно ли повысить уровень
+        }        
     }
 
+
+    private void ScoringEatenNormalFood(FoodType foodType)
+    {
+        if (foodType == FoodType.Normal) // Если съедена обычная еда, увеличиваем счетчик
+        {
+            _eatenNormalFood++;
+            Debug.Log("GameManger: Eaten Normal food: " + _eatenNormalFood);
+            LevelGameUp();    // Проверяем, нужно ли повысить уровень
+        }  
+               
+    }
 }

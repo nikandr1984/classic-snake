@@ -20,8 +20,7 @@ public class InputManager : MonoBehaviour  // Скрипт для обработки глобального в
         // Реализация синглтона
         if (Instance == null)
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
+            Instance = this;            
         }
         else
         {
@@ -34,7 +33,7 @@ public class InputManager : MonoBehaviour  // Скрипт для обработки глобального в
         RulesPanelUI.OnRulesPanelShown  += IgnoreSystemInput;               // Игнорируем системный ввод при показе панели с правилами
         RulesPanelUI.OnRulesPanelHidden += AllowSystemInput;                // Разрешаем системный ввод при скрытии панели с правилами
         LeaderboardPanelUI.OnLeaderboardPanelShown  += IgnoreSystemInput;   // Игнорируем системный ввод при показе панели с таблицей лидеров
-        LeaderboardPanelUI.OnLeaderboardPanelHidden += AllowSystemInput;    // Разрешаем системный ввод при скрытии панели с таблицей лидеров
+        LeaderboardPanelUI.OnLeaderboardPanelHidden += AllowSystemInput;    // Разрешаем системный ввод при скрытии панели с таблицей лидеров     
     }
 
     private void OnDisable()
@@ -42,7 +41,7 @@ public class InputManager : MonoBehaviour  // Скрипт для обработки глобального в
         RulesPanelUI.OnRulesPanelShown  -= IgnoreSystemInput;               // Отписываемся от события при уничтожении объекта
         RulesPanelUI.OnRulesPanelHidden -= AllowSystemInput;                // Отписываемся от события при уничтожении объекта
         LeaderboardPanelUI.OnLeaderboardPanelShown  -= IgnoreSystemInput;   // Отписываемся от события при уничтожении объекта
-        LeaderboardPanelUI.OnLeaderboardPanelHidden -= AllowSystemInput;    // Отписываемся от события при уничтожении объекта
+        LeaderboardPanelUI.OnLeaderboardPanelHidden -= AllowSystemInput;    // Отписываемся от события при уничтожении объекта        
     }
 
 
