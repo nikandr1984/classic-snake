@@ -3,16 +3,20 @@ using UnityEngine;
 
 public class FoodSpawner : MonoBehaviour
 {
+    public static FoodSpawner Instance;  // Синглтон для доступа к FoodSpawner
+
+    [Header("Food Prefabs")]
     [SerializeField] private GameObject _normalFoodPrefab;  // Префаб обычной еды
     [SerializeField] private GameObject _goldenFoodPrefab;  // Префаб золотой еды
     [SerializeField] private GameObject _poisonFoodPrefab;  // Префаб ядовитой еды
-    [SerializeField] private GameObject _slowFoodPrefab;   // Префаб скоростной еды
+    [SerializeField] private GameObject _slowFoodPrefab;    // Префаб скоростной еды
 
     private int _xRange = 6;  // Границы спавна еды по X
     private int _yRange = 6;  // Границы спавна еды по Y
 
     [Header("Golden food settings")]
-    [SerializeField] private int _triggerGoldenFood = 3;    // Количество созданной еды для спавна золотой еды
+    [SerializeField] private int _triggerGoldenFood = 3;  // Количество созданной еды для спавна золотой еды
+    public int TriggerGoldenFood => _triggerGoldenFood;   // Геттер для количества созданной еды для спавна золотой еды
 
     [Header("Poison food settings")]
     [SerializeField] private int _poisonFoodCount = 2;         // Количество ядовитой еды для спавна
@@ -27,6 +31,20 @@ public class FoodSpawner : MonoBehaviour
 
     private int _countSpawnedNormalFood = 0;                  // Счетчик созданной еды
     
+
+    private void Awake()
+    {
+        // Инициализация синглтона
+        if (Instance == null)
+        {
+            Instance = this;
+            Debug.Log("FoodSpawner: singleton created and initialized.");
+        }
+        else
+        {
+            Destroy(gameObject); // Удаляем дубликаты
+        }
+    }
 
 
     void Start()
@@ -74,7 +92,7 @@ public class FoodSpawner : MonoBehaviour
 
     private void PoisonFoodSpawn()  // Спавн ядовитой еды
     {
-        if (GameManager.Instance.levelCount >= _poisonSpawnAfterLevel)
+        if (GameManager.Instance.LevelCount >= _poisonSpawnAfterLevel)
         {
             StartCoroutine(PoisonFoodCoroutine());
         }
@@ -96,7 +114,7 @@ public class FoodSpawner : MonoBehaviour
 
     private void SlowFoodSpawn() // Спавн замедляющей еды
     {
-        if (GameManager.Instance.levelCount % _slowSpawnEveryLevel == 0)
+        if (GameManager.Instance.LevelCount % _slowSpawnEveryLevel == 0)
         {
             StartCoroutine(SlowFoodCoroutine());
         }

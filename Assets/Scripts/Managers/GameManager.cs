@@ -6,48 +6,54 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {          
     public static GameManager Instance;  // Синглтон для доступа к GameManager
-                                                      
-    public static event System.Action OnGameOver;          // Событие для уведомления об окончании игры
-    public static event System.Action OnWallsFlash;        // Событие для уведомления о мигании стен
-    public static event System.Action OnLevelUp;           // Событие для уведомления о повышении уровня (каждые n яблок)
-    
-    public UIManager uiManager;          // Ссылка на UIManager для обновления интерфейса
-    public GameOverUI gameOverUI;        // Ссылка на GameOverUI для отображения экрана окончания игры
-    public float gameOverDelay = 1.5f;   // Задержка перед показом экрана окончания игры
-
-    public bool IsGameOver { get; private set; } = false;  // Флаг: игра окончена? 
-    public bool IsPaused { get; private set; } = false;    // Флаг: игра на паузе?
-    public bool CanPlay => !IsPaused && !IsGameOver;       // Можно ли играть?
 
 
-    public int score { get; private set; }      // Текущий счет
-    public int highScore { get; private set; }  // Рекордный счет
-    public int levelCount { get; private set; } = 1; // Текущий уровень
+    // Статические события
+    public static event System.Action OnGameOver;    // Событие для уведомления об окончании игры
+    public static event System.Action OnWallsFlash;  // Событие для уведомления о мигании стен
+    public static event System.Action OnLevelUp;     // Событие для уведомления о повышении уровня (каждые n яблок)
 
 
-    private int _eatenNormalFood = 0;           // Счетчик съеденных яблок    
+    // Ссылки на компоненты
+    public UIManager uiManager;    // Ссылка на UIManager для обновления интерфейса
+    public GameOverUI gameOverUI;  // Ссылка на GameOverUI для отображения экрана окончания игры
+        
 
-    [SerializeField] private int _normalFoodToLevelUp = 15; // Количество яблок для повышения уровня    
+    // Свойства состояния игры
+    public bool IsGameOver { get; private set; } = false; // Флаг: игра окончена? 
+    public bool IsPaused { get; private set; } = false;   // Флаг: игра на паузе?
+    public bool CanPlay => !IsPaused && !IsGameOver;      // Можно ли играть?
+    public int Score { get; private set; }                // Текущий счет    
+    public int LevelCount { get; private set; } = 1;      // Текущий уровень
+
+
+    // Приватные поля
+    private float _gameTime = 0f;         // Время, прошедшее с начала игры 
+    private int _eatenNormalFood = 0;     // Счетчик съеденных яблок
+    private float _gameOverDelay = 1.5f;  // Задержка перед показом экрана окончания игры                               
+
+
+    // Настройки через инспектор
+    [SerializeField] private int _normalFoodToLevelUp = 3;  // Количество яблок для повышения уровня
+    public int NormalFoodToLevelUp => _normalFoodToLevelUp;  // Геттер для количества яблок для повышения уровня                                                        
 
 
 
 
     private void Awake()
-    {
+    {       
         Time.timeScale = 1f; // Устанавливаем нормальное время при старте игры
 
         // Инициализация синглтона
         if (Instance == null) 
         {
             Instance = this;  
-            Debug.Log("GameManager: синглтон создан и инициализирован.");
+            Debug.Log("GameManager: singleton created and initialized.");
         }
         else
         {
             Destroy(gameObject); // Удаляем дубликаты
-        }
-
-        highScore = PlayerPrefs.GetInt("HighScore", 0); // Загружаем рекорд из памяти               
+        }                    
     }
 
 
@@ -59,11 +65,10 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        // Обновляем таймер в UI, если игра не на паузе и не окончена
-        if (CanPlay && uiManager != null)
+        if (CanPlay)
         {
-            uiManager.UpdateTimer(Time.deltaTime);
-        }
+            _gameTime += Time.deltaTime; // Обновляем время игры, если игра не на паузе и не окончена
+        }        
     }
 
 
@@ -74,7 +79,7 @@ public class GameManager : MonoBehaviour
             // Обновляем UI при загрузке сцены
             if (uiManager != null)
             {
-                uiManager.Initialize(score, highScore);
+                uiManager.Initialize(Score);
             }
 
             InputManager.OnPausePressed += TogglePause;                            // Подписываемся на событие нажатия паузы
@@ -99,12 +104,18 @@ public class GameManager : MonoBehaviour
     }
     
 
+    public float GetGameTime() // Метод для получения времени игры
+    {
+        return _gameTime;
+    }
+
+
     private void LevelGameUp() // Метод увеличения уровня игры
     {
         
         if (_eatenNormalFood % _normalFoodToLevelUp == 0)
         {
-            levelCount++; // Увеличиваем уровень
+            LevelCount++; // Увеличиваем уровень
             
             Debug.Log("GameManager: Level Up! Eaten " + _eatenNormalFood + " Normal food.");
            
@@ -113,7 +124,7 @@ public class GameManager : MonoBehaviour
 
         if (uiManager != null)
         {
-           uiManager.UpdateLevel(levelCount); // Обновляем уровень в UI
+           uiManager.UpdateLevel(LevelCount); // Обновляем уровень в UI
         }
 
     }   
@@ -132,7 +143,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator DelayedGameOver()
     {
-        yield return new WaitForSecondsRealtime(gameOverDelay);
+        yield return new WaitForSecondsRealtime(_gameOverDelay);
         OnGameOver?.Invoke();
     }
     
@@ -163,8 +174,7 @@ public class GameManager : MonoBehaviour
     // Метод для сброса игры через перезагрузку сцены
     public void RestartGame()  
     {        
-        // Перезагружаем сцену
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);                 
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Перезагружаем сцену                
     }
 
     private void ScoringPoints(FoodType foodType)
@@ -189,17 +199,12 @@ public class GameManager : MonoBehaviour
                 break;
 
         }
-        score += points;    // Увеличиваем счет на соответствующее количество очков
+        Score += points;    // Увеличиваем счет на соответствующее количество очков
 
-        Debug.Log($"GameManager: Eaten {foodType} food. Score: {score}");
+        Debug.Log($"GameManager: Eaten {foodType} food. Score: {Score}");
         
-        if (uiManager != null) uiManager.UpdateScore(score); // Обновляем счет в UI        
-
-        if (score > highScore)
-        {
-            highScore = score;                           // Обновляем рекорд
-            PlayerPrefs.SetInt("HighScore", highScore);  // Сохраняем рекорд в памяти
-        }        
+        if (uiManager != null) uiManager.UpdateScore(Score); // Обновляем счет в UI
+                     
     }
 
 

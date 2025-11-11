@@ -18,8 +18,7 @@ public class Snake : MonoBehaviour
 
     [SerializeField] private SnakeMovement _snakeMovement;   // —сылка на обработчик ввода
     [SerializeField] private GameObject _bodyPrefab;         // —сылка на префаб сегмента тела змейки
-    [SerializeField] private SpriteRenderer _headRenderer;   // —сылка на спрайт рендерер головы змейки
-    [SerializeField] private FoodSpawner _foodSpawner;       // —сылка на спавнер еды
+    [SerializeField] private SpriteRenderer _headRenderer;   // —сылка на спрайт рендерер головы змейки    
 
     public static event Action<FoodType> OnFoodEaten;        // —обытие, вызываемое при съедании еды    
 
@@ -197,7 +196,7 @@ public class Snake : MonoBehaviour
         _moveInterval = Mathf.Max(newInterval, _minMoveInterval);  // Ќе даем интервалу стать меньше минимального
         
         _eatenSlowFood = 0;      // —брасываем счетчик замедл€ющей еды (чтобы не переходил на новый уровень)
-        Debug.Log("Snake: Slow food count: " + _eatenSlowFood);
+        Debug.Log("Snake.HandleLevelUp: Slow food count: " + _eatenSlowFood);
 
         Debug.Log("Snake: Speeed Up! New speed: " + _moveInterval + ". Max speed: " + _minMoveInterval);
     }
@@ -251,14 +250,16 @@ public class Snake : MonoBehaviour
         }
 
 
-        if (_eatenSlowFood == _foodSpawner.SlowFoodCount)
+        if (_eatenSlowFood == FoodSpawner.Instance.SlowFoodCount)
         {
             float newInterval = _moveInterval * 1.1f;                  // ”меньшаем скорость на 10%
             _moveInterval = Mathf.Min(newInterval, _maxMoveInterval);  // Ќе даем интервалу стать больше максимального
-                      
+            BackgroundMusic.Instance.DecreasePitch();                  // ”меньшаем скорость музыки
+
             Debug.Log("Snake: Speeed Down! New speed: " + _moveInterval + ". Min speed: " + _maxMoveInterval);
 
-            // —етчик замедл€ющих €блок сбрасываем в методе перехода на новый уровень HandleLevelUp()
+            _eatenSlowFood = 0;      // —брасываем счетчик замедл€ющей еды
+            Debug.Log("Snake.SlowingDownSnake: Slow food count: " + _eatenSlowFood);
         }
     }
 
