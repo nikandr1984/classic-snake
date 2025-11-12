@@ -21,9 +21,9 @@ public class SnakeMovement : MonoBehaviour
 
     private void OnDisable()
     {
-        InputManager.OnMoveUpPressed -= HandleMoveUp;
-        InputManager.OnMoveDownPressed -= HandleMoveDown;
-        InputManager.OnMoveLeftPressed -= HandleMoveLeft;
+        InputManager.OnMoveUpPressed    -= HandleMoveUp;
+        InputManager.OnMoveDownPressed  -= HandleMoveDown;
+        InputManager.OnMoveLeftPressed  -= HandleMoveLeft;
         InputManager.OnMoveRightPressed -= HandleMoveRight;
 
         Snake.OnFoodEaten -= ApplyGoldenAppleEffect;           // Отписка от события съедания золтой еды
@@ -68,11 +68,9 @@ public class SnakeMovement : MonoBehaviour
     // Корутин для переключения флага инверсии управления на заданное время
     private IEnumerator InvertControlsCoroutine(float duration) 
     {
-        _isInvertedControls = true;
-        Debug.Log("SnakeMovement: Control is inverted to " + duration + "sec." );
+        _isInvertedControls = true;        
         yield return new WaitForSeconds(duration);
         _isInvertedControls = false;
-        Debug.Log("SnakeMovement: Control is back to normal.");
     }
 
 
@@ -85,5 +83,4 @@ public class SnakeMovement : MonoBehaviour
         }
         return _currentDirection;
     }
-
 }

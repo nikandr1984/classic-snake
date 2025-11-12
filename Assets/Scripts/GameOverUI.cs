@@ -107,9 +107,7 @@ public class GameOverUI : MonoBehaviour
             GameManager.Instance.GetGameTime()
         );
 
-        enterNamePanel?.SetActive(false);          // Скрываем панель ввода имени после отправки
-
-        Debug.Log($"GameOverUI: Result {name}: {GameManager.Instance.Score} added to the leaderboard!");
+        enterNamePanel?.SetActive(false);          // Скрываем панель ввода имени после отправки        
     }
 
     public void CloseEnterNamePanel()

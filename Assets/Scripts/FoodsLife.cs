@@ -17,7 +17,6 @@ public class FoodsLife : MonoBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
         Destroy(gameObject, _lifeTime);
         StartCoroutine(BlinkBeforeDestroy());
-
     }
 
     IEnumerator BlinkBeforeDestroy()

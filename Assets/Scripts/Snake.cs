@@ -33,11 +33,7 @@ public class Snake : MonoBehaviour
 
         // Если спрайт рендерер головы не назначен в инспекторе, пытаемся получить его с текущего объекта
         if (_headRenderer == null) _headRenderer = GetComponent<SpriteRenderer>(); 
-        _originalHeadColor = _headRenderer.color; // Сохраняем исходный цвет головы 
-
-
-        Debug.Log("Snake: Initialized with move interval " + _moveInterval);
-
+        _originalHeadColor = _headRenderer.color;                                  // Сохраняем исходный цвет головы     
     }
 
     private void Update()
@@ -176,8 +172,7 @@ public class Snake : MonoBehaviour
     private void CrashedSnake() // Метод для обработки окончания игры
     {                
         if (GameManager.Instance != null)  // Вызываем событие окончания игры
-        {
-            Debug.Log("Snake: Game Over вызван!");
+        {            
             GameManager.Instance.GameOver(); 
         }        
     }
@@ -196,9 +191,6 @@ public class Snake : MonoBehaviour
         _moveInterval = Mathf.Max(newInterval, _minMoveInterval);  // Не даем интервалу стать меньше минимального
         
         _eatenSlowFood = 0;      // Сбрасываем счетчик замедляющей еды (чтобы не переходил на новый уровень)
-        Debug.Log("Snake.HandleLevelUp: Slow food count: " + _eatenSlowFood);
-
-        Debug.Log("Snake: Speeed Up! New speed: " + _moveInterval + ". Max speed: " + _minMoveInterval);
     }
 
 
@@ -245,8 +237,7 @@ public class Snake : MonoBehaviour
     {
         if (foodType == FoodType.Slow)
         {
-            _eatenSlowFood++;
-            Debug.Log("Snake: Eaten Slow food: " + _eatenSlowFood);
+            _eatenSlowFood++;           
         }
 
 
@@ -255,12 +246,8 @@ public class Snake : MonoBehaviour
             float newInterval = _moveInterval * 1.1f;                  // Уменьшаем скорость на 10%
             _moveInterval = Mathf.Min(newInterval, _maxMoveInterval);  // Не даем интервалу стать больше максимального
             BackgroundMusic.Instance.DecreasePitch();                  // Уменьшаем скорость музыки
-
-            Debug.Log("Snake: Speeed Down! New speed: " + _moveInterval + ". Min speed: " + _maxMoveInterval);
-
-            _eatenSlowFood = 0;      // Сбрасываем счетчик замедляющей еды
-            Debug.Log("Snake.SlowingDownSnake: Slow food count: " + _eatenSlowFood);
+              
+            _eatenSlowFood = 0;                                        // Сбрасываем счетчик замедляющей еды            
         }
     }
-
 }

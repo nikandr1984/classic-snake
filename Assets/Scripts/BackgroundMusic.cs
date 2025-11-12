@@ -26,11 +26,7 @@ public class BackgroundMusic : MonoBehaviour
             if (_audioSource != null)
             {
                 _basePitch = _audioSource.pitch; // Сохраняем базовую скорость воспроизведения
-            }
-            else
-            {
-                Debug.LogError("BackgroundMusic: AudioSource not found.");
-            }
+            }            
         }
         else
         {
@@ -55,15 +51,13 @@ public class BackgroundMusic : MonoBehaviour
     private void IncreasePitch() // Увеличиваем скорость воспроизведения
     {
         float newPitch = _audioSource.pitch + _pitchIncreasePerLevel;
-        _audioSource.pitch = Mathf.Min(newPitch, 1.3f);                            // Ограничиваем макс скорость
-        Debug.Log($"BackgroundMusic: Pitch increased to {_audioSource.pitch:F2}");     
+        _audioSource.pitch = Mathf.Min(newPitch, 1.3f);                // Ограничиваем макс скорость             
     }
 
 
     public void DecreasePitch() // Уменьшаем скорость воспроизведения
     {
-        _audioSource.pitch -= _pitchIncreasePerLevel;
-        Debug.Log($"BackgroundMusic: Pitch decreased to {_audioSource.pitch:F2}");
+        _audioSource.pitch -= _pitchIncreasePerLevel;        
     }
 
 

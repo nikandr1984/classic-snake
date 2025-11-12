@@ -16,8 +16,7 @@ public class LeaderboardPanelUI : MonoBehaviour
      
     private void OnEnable()
     {
-        GameManager.OnGameOver += RefreshLeaderboard; // Подписываемся на событие окончания игры для обновления таблицы лидеров
-        Debug.Log("LeaderboardPanelUI: subscribed to the event OnGameOver.");
+        GameManager.OnGameOver += RefreshLeaderboard; // Подписываемся на событие окончания игры для обновления таблицы лидеров        
     }
 
     private void OnDisable()
@@ -40,18 +39,14 @@ public class LeaderboardPanelUI : MonoBehaviour
     }
 
     private void RefreshLeaderboard()      // Метод для обновления таблицы лидеров
-    {
-        Debug.Log("LeaderboardPanelUI: Refreshing leaderboard.");
-
+    {  
         if (LeaderboardManager.Instance == null)
-        {
-            Debug.LogError("LeaderboardPanelUI: LeaderboardManager instance is null!");
+        {            
             return;  // Проверяем, что ссылка не null
         }            
 
         var entries = LeaderboardManager.Instance.GetEntries(); // Получаем записи таблицы лидеров
-        Debug.Log($"LeaderboardPanelUI: Retrieved {entries.Count} entries from LeaderboardManager.");
-
+        
         foreach (var entry in _spawnedEntries) // Удаляем старые записи
         {
             Destroy(entry);

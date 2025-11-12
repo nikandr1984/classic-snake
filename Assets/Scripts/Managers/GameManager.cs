@@ -47,8 +47,7 @@ public class GameManager : MonoBehaviour
         // Инициализация синглтона
         if (Instance == null) 
         {
-            Instance = this;  
-            Debug.Log("GameManager: singleton created and initialized.");
+            Instance = this;            
         }
         else
         {
@@ -99,7 +98,6 @@ public class GameManager : MonoBehaviour
             Snake.OnFoodEaten -= ScoringEatenNormalFood;                          // Отписываемся от события съедания еды для подсчета обычной еды
             RulesPanelUI.OnRulesPanelShown -= OnSomePanelShowHandler;             // Отписываемся от события показа панели с правилами
             LeaderboardPanelUI.OnLeaderboardPanelShown -= OnSomePanelShowHandler; // Отписываемся от события показа панели с таблицей лидеров
-
         }
     }
     
@@ -115,10 +113,7 @@ public class GameManager : MonoBehaviour
         
         if (_eatenNormalFood % _normalFoodToLevelUp == 0)
         {
-            LevelCount++; // Увеличиваем уровень
-            
-            Debug.Log("GameManager: Level Up! Eaten " + _eatenNormalFood + " Normal food.");
-           
+            LevelCount++; // Увеличиваем уровень                     
             OnLevelUp?.Invoke(); 
         }
 
@@ -126,7 +121,6 @@ public class GameManager : MonoBehaviour
         {
            uiManager.UpdateLevel(LevelCount); // Обновляем уровень в UI
         }
-
     }   
     
 
@@ -153,8 +147,7 @@ public class GameManager : MonoBehaviour
         if (IsGameOver && !paused) return;  // Заапрещаем снимать паузу, если GameOver
 
         IsPaused = paused;                  // Устанавливаем флаг паузы
-        Time.timeScale = paused ? 0f : 1f;  // Останавливаем или возобновляем время       
-        
+        Time.timeScale = paused ? 0f : 1f;  // Останавливаем или возобновляем время  
     }
 
     private void TogglePause()
@@ -197,14 +190,11 @@ public class GameManager : MonoBehaviour
             default:
                 points = 0;
                 break;
-
         }
-        Score += points;    // Увеличиваем счет на соответствующее количество очков
-
-        Debug.Log($"GameManager: Eaten {foodType} food. Score: {Score}");
         
-        if (uiManager != null) uiManager.UpdateScore(Score); // Обновляем счет в UI
-                     
+        Score += points;    // Увеличиваем счет на соответствующее количество очков        
+        
+        if (uiManager != null) uiManager.UpdateScore(Score); // Обновляем счет в UI                     
     }
 
 
@@ -212,10 +202,8 @@ public class GameManager : MonoBehaviour
     {
         if (foodType == FoodType.Normal) // Если съедена обычная еда, увеличиваем счетчик
         {
-            _eatenNormalFood++;
-            Debug.Log("GameManger: Eaten Normal food: " + _eatenNormalFood);
+            _eatenNormalFood++;            
             LevelGameUp();    // Проверяем, нужно ли повысить уровень
-        }  
-               
+        }                 
     }
 }

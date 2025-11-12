@@ -17,8 +17,7 @@ public class LeaderboardManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            LoadLeaderboard();
-            Debug.Log("LeaderboardManager: Singleton initialized. Uploaded records: " + _entries.Count);
+            LoadLeaderboard();            
         }
         else
         {

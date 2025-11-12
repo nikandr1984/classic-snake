@@ -37,8 +37,7 @@ public class FoodSpawner : MonoBehaviour
         // Инициализация синглтона
         if (Instance == null)
         {
-            Instance = this;
-            Debug.Log("FoodSpawner: singleton created and initialized.");
+            Instance = this;            
         }
         else
         {
@@ -59,8 +58,8 @@ public class FoodSpawner : MonoBehaviour
         Snake.OnFoodEaten     += SpawnFood;         // Подписка на событие съедания еды
         GameManager.OnLevelUp += PoisonFoodSpawn;   // Подписка на событие повышения уровня для ядовитой еды
         GameManager.OnLevelUp += SlowFoodSpawn;     // Подписка на событие повышения уровня для замедляющей еды
-
     }
+
     private void OnDisable()
     {
         Snake.OnFoodEaten     -= SpawnFood;        // Отписка от события съедания еды
@@ -107,8 +106,7 @@ public class FoodSpawner : MonoBehaviour
         {
             Instantiate(_poisonFoodPrefab, GetRandomPosition(), Quaternion.identity);  // Спавним ядовитую еду
             yield return new WaitForSeconds(1f);                                       // Небольшая задержка между спавнами
-        }
-        
+        }        
     }
 
 
@@ -127,7 +125,6 @@ public class FoodSpawner : MonoBehaviour
         {
             Instantiate(_slowFoodPrefab, GetRandomPosition(), Quaternion.identity);
             yield return new WaitForSeconds(1f);
-
         }
     }
 
@@ -136,6 +133,5 @@ public class FoodSpawner : MonoBehaviour
         int x = Random.Range(-_xRange, _xRange + 1);
         int y = Random.Range(-_yRange, _yRange + 1);
         return new Vector3(x, y, 0);
-    }
-    
+    }    
 }

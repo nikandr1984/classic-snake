@@ -82,8 +82,6 @@ public class SoundManager : MonoBehaviour
         {
             _audioSource.PlayOneShot(_slowFoodEat);
         }
-
-
     }
 
 
@@ -101,9 +99,7 @@ public class SoundManager : MonoBehaviour
         {
             _audioSource.PlayOneShot(_levelUp);
         }
-    }    
-
-
+    }
 }
 
 
