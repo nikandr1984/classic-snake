@@ -10,6 +10,20 @@ public class RulesPanelUI : MonoBehaviour
 
 
 
+
+    private void OnEnable()
+    {
+        InputManager.OnClosePressed += HideRulesPanel; // Подписываемся на событие нажатия закрытия окна
+    }
+
+    private void OnDisable()
+    {
+        InputManager.OnClosePressed -= HideRulesPanel; // Отписываемся от события при уничтожении объекта
+    }
+
+
+
+
     public void ShowRulesPanel()      // Метод для показа панели с правилами
     {      
         _rulesPanel.SetActive(true);

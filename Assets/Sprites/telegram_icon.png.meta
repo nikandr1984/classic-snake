@@ -1,19 +1,10 @@
 fileFormatVersion: 2
-guid: b5fae0877838f1d41bfa5236635416f4
+guid: 52635447b4ce2764cb462153bc44f35d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4858573644043748034
-    second: WhiteBeard_V1_1_0
-  - first:
-      213: 7117703663272038258
-    second: WhiteBeard_V1_1_1
-  - first:
-      213: 5813234530054868217
-    second: WhiteBeard_V1_1_2
-  - first:
-      213: -8936899287176504439
-    second: WhiteBeard_V1_1_3
+      213: -9154489717604822356
+    second: telegram_icon_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -55,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -109,111 +100,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: WhiteBeard_V1_1_0
+      name: telegram_icon_0
       rect:
         serializedVersion: 2
-        x: 152
-        y: 527
-        width: 171
-        height: 153
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 2c28d48ccfe1d6340800000000000000
-      internalID: 4858573644043748034
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: WhiteBeard_V1_1_1
-      rect:
-        serializedVersion: 2
-        x: 153
-        y: 89
-        width: 492
-        height: 446
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 27f83d145c927c260800000000000000
-      internalID: 7117703663272038258
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: WhiteBeard_V1_1_2
-      rect:
-        serializedVersion: 2
-        x: 364
-        y: 506
-        width: 81
-        height: 196
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 9fc84f75102cca050800000000000000
-      internalID: 5813234530054868217
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: WhiteBeard_V1_1_3
-      rect:
-        serializedVersion: 2
-        x: 474
-        y: 527
-        width: 170
-        height: 153
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 98b1762b271c9f380800000000000000
-      internalID: -8936899287176504439
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: WhiteBeard_V1_1_4
-      rect:
-        serializedVersion: 2
-        x: 59
-        y: 54
-        width: 678
-        height: 730
+        x: 90
+        y: 145
+        width: 614
+        height: 510
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: fc17b1bf8da4ecc40b089393d47ba43c
-      internalID: 1937335470
+      spriteID: ca2d23aba18b4f080800000000000000
+      internalID: -9154489717604822356
       vertices: []
       indices: 
       edges: []
@@ -222,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 05662ae0c0cb55140a70008cb74cf3d7
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -232,11 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      WhiteBeard_V1_1_0: 4858573644043748034
-      WhiteBeard_V1_1_1: 7117703663272038258
-      WhiteBeard_V1_1_2: 5813234530054868217
-      WhiteBeard_V1_1_3: -8936899287176504439
-      WhiteBeard_V1_1_4: 1937335470
+      telegram_icon_0: -9154489717604822356
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

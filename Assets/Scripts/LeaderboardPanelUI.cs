@@ -16,12 +16,14 @@ public class LeaderboardPanelUI : MonoBehaviour
      
     private void OnEnable()
     {
-        GameManager.OnGameOver += RefreshLeaderboard; // Подписываемся на событие окончания игры для обновления таблицы лидеров        
+        GameManager.OnGameOver      += RefreshLeaderboard;   // Подписываемся на событие окончания игры для обновления таблицы лидеров
+        InputManager.OnClosePressed += HideLeaderboardPanel; // Подписываемся на событие нажатия закрытия окна                                              
     }
 
     private void OnDisable()
     {
-        GameManager.OnGameOver -= RefreshLeaderboard; // Отписываемся от события при уничтожении объекта
+        GameManager.OnGameOver      -= RefreshLeaderboard;   // Отписываемся от события при уничтожении объекта
+        InputManager.OnClosePressed -= HideLeaderboardPanel; // Отписываемся от события при уничтожении объекта
     }
 
 

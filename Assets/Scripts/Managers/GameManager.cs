@@ -9,9 +9,10 @@ public class GameManager : MonoBehaviour
 
 
     // Статические события
-    public static event System.Action OnGameOver;    // Событие для уведомления об окончании игры
-    public static event System.Action OnWallsFlash;  // Событие для уведомления о мигании стен
-    public static event System.Action OnLevelUp;     // Событие для уведомления о повышении уровня (каждые n яблок)
+    public static event System.Action OnGameOver;           // Событие для уведомления об окончании игры
+    public static event System.Action OnWallsFlash;         // Событие для уведомления о мигании стен
+    public static event System.Action OnLevelUp;            // Событие для уведомления о повышении уровня (каждые n яблок)
+    public static event System.Action OnGameStarted;        // Событие для уведомления о старте игры                                                        
 
 
     // Ссылки на компоненты
@@ -22,9 +23,12 @@ public class GameManager : MonoBehaviour
     // Свойства состояния игры
     public bool IsGameOver { get; private set; } = false; // Флаг: игра окончена? 
     public bool IsPaused { get; private set; } = false;   // Флаг: игра на паузе?
-    public bool CanPlay => !IsPaused && !IsGameOver;      // Можно ли играть?
-    public int Score { get; private set; }                // Текущий счет    
-    public int LevelCount { get; private set; } = 1;      // Текущий уровень
+
+    public bool IsGameStarted { get; private set; } = false;
+
+    public bool CanPlay => IsGameStarted && !IsPaused && !IsGameOver;  // Можно ли играть?
+    public int Score { get; private set; }                             // Текущий счет    
+    public int LevelCount { get; private set; } = 1;                   // Текущий уровень
 
 
     // Приватные поля
@@ -41,7 +45,7 @@ public class GameManager : MonoBehaviour
 
 
     private void Awake()
-    {       
+    {     
         Time.timeScale = 1f; // Устанавливаем нормальное время при старте игры
 
         // Инициализация синглтона
@@ -55,11 +59,6 @@ public class GameManager : MonoBehaviour
         }                    
     }
 
-
-    private void Start()
-    {
-        uiManager.SetStartButtonToNewGame(); // Обновляем текст кнопки начала игры
-    }
 
 
     private void Update()
@@ -80,32 +79,50 @@ public class GameManager : MonoBehaviour
             {
                 uiManager.Initialize(Score);
             }
-
+                        
             InputManager.OnPausePressed += TogglePause;                            // Подписываемся на событие нажатия паузы
             Snake.OnFoodEaten += ScoringPoints;                                    // Подписываемся на событие съедания еды
             Snake.OnFoodEaten += ScoringEatenNormalFood;                           // Подписываемся на событие съедания еды для подсчета обычной еды
             RulesPanelUI.OnRulesPanelShown += OnSomePanelShowHandler;              // Подписываемся на событие показа панели с правилами
             LeaderboardPanelUI.OnLeaderboardPanelShown += OnSomePanelShowHandler;  // Подписываемся на событие показа панели с таблицей лидеров
+            CreditsPanelUI.OnCreditsPanelShown += OnSomePanelShowHandler;          // Подписываемся на событие показа панели с создателями игры
         }
     }
     
     private void OnDisable() 
     {
         if (Instance == this) 
-        {
+        {            
             InputManager.OnPausePressed -= TogglePause;                           // Отписываемся от события нажатия паузы
             Snake.OnFoodEaten -= ScoringPoints;                                   // Отписываемся от события съедания еды
             Snake.OnFoodEaten -= ScoringEatenNormalFood;                          // Отписываемся от события съедания еды для подсчета обычной еды
             RulesPanelUI.OnRulesPanelShown -= OnSomePanelShowHandler;             // Отписываемся от события показа панели с правилами
             LeaderboardPanelUI.OnLeaderboardPanelShown -= OnSomePanelShowHandler; // Отписываемся от события показа панели с таблицей лидеров
+            CreditsPanelUI.OnCreditsPanelShown -= OnSomePanelShowHandler;         // Отписываемся от события показа панели с создателями игры
         }
     }
-    
+
+    // Метод для старта игры
+    public void StartGame()
+    {
+        IsGameStarted = true;
+        OnGameStarted?.Invoke(); // Уведомляем подписчиков о старте игры
+    }
+         
+
+    // Метод для сброса игры через перезагрузку сцены
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Перезагружаем сцену        
+    }
+           
+
 
     public float GetGameTime() // Метод для получения времени игры
     {
         return _gameTime;
-    }
+    }  
+       
 
 
     private void LevelGameUp() // Метод увеличения уровня игры
@@ -147,7 +164,8 @@ public class GameManager : MonoBehaviour
         if (IsGameOver && !paused) return;  // Заапрещаем снимать паузу, если GameOver
 
         IsPaused = paused;                  // Устанавливаем флаг паузы
-        Time.timeScale = paused ? 0f : 1f;  // Останавливаем или возобновляем время  
+        Time.timeScale = paused ? 0f : 1f;  // Останавливаем или возобновляем время                                            
+        
     }
 
     private void TogglePause()
@@ -158,17 +176,10 @@ public class GameManager : MonoBehaviour
 
     private void OnSomePanelShowHandler()  // Обработчик события показа панели с правилами
     {
-        SetPause(true);                     // Ставим игру на паузу при показе панели с правилами
+        SetPause(true);                    // Ставим игру на паузу при показе панели с правилами
     }
-
-
-
-
-    // Метод для сброса игры через перезагрузку сцены
-    public void RestartGame()  
-    {        
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Перезагружаем сцену                
-    }
+    
+    
 
     private void ScoringPoints(FoodType foodType)
     {
