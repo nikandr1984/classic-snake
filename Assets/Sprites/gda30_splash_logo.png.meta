@@ -1,0 +1,585 @@
+fileFormatVersion: 2
+guid: 7c9969570e030c345a30a5596211c623
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 3416781913456515267
+    second: gda30_splash_logo_0
+  - first:
+      213: -167851431469596924
+    second: gda30_splash_logo_1
+  - first:
+      213: -8485484396194659818
+    second: gda30_splash_logo_2
+  - first:
+      213: 8059055865644077278
+    second: gda30_splash_logo_3
+  - first:
+      213: -6280016490978055736
+    second: gda30_splash_logo_4
+  - first:
+      213: -4427267054768012430
+    second: gda30_splash_logo_5
+  - first:
+      213: -1238422562703448315
+    second: gda30_splash_logo_6
+  - first:
+      213: -9208243730475261806
+    second: gda30_splash_logo_7
+  - first:
+      213: 5191631958668729475
+    second: gda30_splash_logo_8
+  - first:
+      213: -912060385618987857
+    second: gda30_splash_logo_9
+  - first:
+      213: -954177346418582363
+    second: gda30_splash_logo_10
+  - first:
+      213: 8719241817960883336
+    second: gda30_splash_logo_11
+  - first:
+      213: -4866187617836638845
+    second: gda30_splash_logo_12
+  - first:
+      213: -5385217546572145282
+    second: gda30_splash_logo_13
+  - first:
+      213: 2176536091075427844
+    second: gda30_splash_logo_14
+  - first:
+      213: -7481868586294410758
+    second: gda30_splash_logo_15
+  - first:
+      213: 3383731599208016685
+    second: gda30_splash_logo_16
+  - first:
+      213: 8278696887051405705
+    second: gda30_splash_logo_17
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: gda30_splash_logo_0
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 30
+        width: 235
+        height: 206
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c81e822c09da6f20800000000000000
+      internalID: 3416781913456515267
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gda30_splash_logo_1
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 234
+        width: 86
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 40fb63c230cabadf0800000000000000
+      internalID: -167851431469596924
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gda30_splash_logo_2
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 225
+        width: 43
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 61282b156e08d3a80800000000000000
+      internalID: -8485484396194659818
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gda30_splash_logo_3
+      rect:
+        serializedVersion: 2
+        x: 190
+        y: 234
+        width: 86
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ed05eb07c9487df60800000000000000
+      internalID: 8059055865644077278
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gda30_splash_logo_4
+      rect:
+        serializedVersion: 2
+        x: 314
+        y: 188
+        width: 51
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8c968af3646e8d8a0800000000000000
+      internalID: -6280016490978055736
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gda30_splash_logo_5
+      rect:
+        serializedVersion: 2
+        x: 370
+        y: 188
+        width: 51
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 27343c202103f82c0800000000000000
+      internalID: -4427267054768012430
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gda30_splash_logo_6
+      rect:
+        serializedVersion: 2
+        x: 426
+        y: 188
+        width: 64
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5076b3c9d3d30dee0800000000000000
+      internalID: -1238422562703448315
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gda30_splash_logo_7
+      rect:
+        serializedVersion: 2
+        x: 491
+        y: 188
+        width: 56
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 290edcf4d1fb53080800000000000000
+      internalID: -9208243730475261806
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gda30_splash_logo_8
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 188
+        width: 54
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 38cd30d82c16c0840800000000000000
+      internalID: 5191631958668729475
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gda30_splash_logo_9
+      rect:
+        serializedVersion: 2
+        x: 604
+        y: 188
+        width: 56
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa4797d59e5b753f0800000000000000
+      internalID: -912060385618987857
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gda30_splash_logo_10
+      rect:
+        serializedVersion: 2
+        x: 667
+        y: 188
+        width: 49
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5acdef542c412c2f0800000000000000
+      internalID: -954177346418582363
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gda30_splash_logo_11
+      rect:
+        serializedVersion: 2
+        x: 312
+        y: 86
+        width: 51
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8842a46ac38f00970800000000000000
+      internalID: 8719241817960883336
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gda30_splash_logo_12
+      rect:
+        serializedVersion: 2
+        x: 366
+        y: 86
+        width: 55
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 38d517cc424d77cb0800000000000000
+      internalID: -4866187617836638845
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gda30_splash_logo_13
+      rect:
+        serializedVersion: 2
+        x: 426
+        y: 86
+        width: 40
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e7ddd5a6c2dd345b0800000000000000
+      internalID: -5385217546572145282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gda30_splash_logo_14
+      rect:
+        serializedVersion: 2
+        x: 464
+        y: 86
+        width: 55
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 40e3e550b0c943e10800000000000000
+      internalID: 2176536091075427844
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gda30_splash_logo_15
+      rect:
+        serializedVersion: 2
+        x: 517
+        y: 86
+        width: 55
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af184c159201b2890800000000000000
+      internalID: -7481868586294410758
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gda30_splash_logo_16
+      rect:
+        serializedVersion: 2
+        x: 603
+        y: 86
+        width: 54
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d2bee0236fd65fe20800000000000000
+      internalID: 3383731599208016685
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gda30_splash_logo_17
+      rect:
+        serializedVersion: 2
+        x: 657
+        y: 86
+        width: 53
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 989c4d3d4f6d3e270800000000000000
+      internalID: 8278696887051405705
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      gda30_splash_logo_0: 3416781913456515267
+      gda30_splash_logo_1: -167851431469596924
+      gda30_splash_logo_10: -954177346418582363
+      gda30_splash_logo_11: 8719241817960883336
+      gda30_splash_logo_12: -4866187617836638845
+      gda30_splash_logo_13: -5385217546572145282
+      gda30_splash_logo_14: 2176536091075427844
+      gda30_splash_logo_15: -7481868586294410758
+      gda30_splash_logo_16: 3383731599208016685
+      gda30_splash_logo_17: 8278696887051405705
+      gda30_splash_logo_2: -8485484396194659818
+      gda30_splash_logo_3: 8059055865644077278
+      gda30_splash_logo_4: -6280016490978055736
+      gda30_splash_logo_5: -4427267054768012430
+      gda30_splash_logo_6: -1238422562703448315
+      gda30_splash_logo_7: -9208243730475261806
+      gda30_splash_logo_8: 5191631958668729475
+      gda30_splash_logo_9: -912060385618987857
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
