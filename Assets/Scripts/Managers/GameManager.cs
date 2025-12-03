@@ -193,7 +193,7 @@ public class GameManager : MonoBehaviour
                 points = 100;
                 break;
             case FoodType.Poison:
-                points = -30;
+                points = -15;
                 break;
             case FoodType.Slow:
                 points = +5;

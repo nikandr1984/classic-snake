@@ -6649,7 +6649,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Red:  +10 points\nPurple: -30 points\nGrey: +5 points, If eat x3 -10%
+  m_text: "Red:  +10 points\nPurple: -15 points\nBlue: +5 points, If eat x3 -10%
     speed \nGold: +100 points & Inverted controls for 10 sec"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
